@@ -17,6 +17,8 @@
             rel="stylesheet" 
             integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" 
             crossorigin="anonymous">
+        
+        <link href="./css/styles.css" >
 
         <title>Scientific Initiative</title>
         
@@ -43,11 +45,23 @@
             <h1 
                 class="text-center" 
                 style="margin-top : 30px; margin-bottom: 30px;">
-                Dashboard (Generic Graph) 
+                Dashboard 
             </h1>
         </div>
         <div class="container">
-            <div class="text-center" id="canvas">
+            <div class="row">
+                <div class="col">
+                    <div id="student-card">
+                        <h2 class="py-students-list3 text-bg-dark" style="text-align: center;"> Students </h2>
+                        <div id="students-list"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="graph-card">
+                        <h2 class="py-3 text-bg-dark" style="text-align: center;"> <span>Student's</span> graph </h2>
+                        <div id="canvas"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <!------------------------------------------FOOTER------------------------------------------>
@@ -60,8 +74,9 @@
                 </div>      
             </footer>
         </div>
-        
+
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="./js/StudentsCard/card.js"></script>
         <script src="./js/LineChart/graph.js"></script>
 
     </body>

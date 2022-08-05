@@ -16,6 +16,8 @@ const svg = d3.select("#canvas")
 d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/connectedscatter.csv",
 
     function (d) {
+        // AKI
+
         return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value }
     }).then(
 
@@ -54,3 +56,21 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/co
                 .attr("r", 5)
                 .attr("fill", "#69b3a2")
         })
+
+
+/*const DATASTORE = {
+    curse_infos: null,
+    event_mapping: null,
+}
+
+d3.csv("./data/event_mapping.csv",
+    function (data) {
+        DATASTORE.event_mapping = data;
+    });
+
+d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv", 
+    function (data) {
+        DATASTORE.curse_infos = data;
+    })
+
+console.log(DATASTORE); */
