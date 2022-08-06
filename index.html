@@ -53,12 +53,16 @@
                 <div class="col">
                     <div id="student-card">
                         <h2 class="py-students-list3 text-bg-dark" style="text-align: center;"> Students </h2>
-                        <div id="students-list"></div>
+                        <div id="students-list">
+                            <select class="form-control" id="students">
+                                <option>Select Student</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col">
                     <div id="graph-card">
-                        <h2 class="py-3 text-bg-dark" style="text-align: center;"> <span>Student's</span> graph </h2>
+                        <h2 class="py-3 text-bg-dark" style="text-align: center;"> <span id="student-name">Isabelle Santos</span>'s graphic </h2>
                         <div id="canvas"></div>
                     </div>
                 </div>
@@ -75,7 +79,14 @@
             </footer>
         </div>
 
+        <!------------------------------------------TESTS------------------------------------------->
+
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous">
+        </script>
         <script src="./js/StudentsCard/card.js"></script>
         <script src="./js/LineChart/graph.js"></script>
 

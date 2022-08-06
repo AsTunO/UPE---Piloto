@@ -16,8 +16,6 @@ const svg = d3.select("#canvas")
 d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/connectedscatter.csv",
 
     function (d) {
-        // AKI
-
         return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value }
     }).then(
 
