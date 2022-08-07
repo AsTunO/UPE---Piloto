@@ -1,4 +1,93 @@
-// https://d3-graph-gallery.com/
+function convertDate(epoch_date) {
+    return new Date(+epoch_date * 1000);
+}    
+
+// CUIDADO
+/*function getEvent(component, action, target) {
+    d3.csv("./data/event_mapping.csv", function(data) {
+        if(((component == data.component) && (action == data.action) && target == (data.target))) {
+            return data.event;
+        }
+    })
+}*/
+
+usersData = []
+
+d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv",
+
+    function (data) {
+
+        usersData.push(
+            {   id: data.userid, 
+                time: convertDate(data.t),
+                //timeLast: (d3.timeParse("%Y-%m-%d")(convertDate(data.t))), // Não Funciona
+                //event: getEvent(data.component, data.action, data.target),  // CUIDADO
+                component: data.component, 
+                action: data.action, 
+                target: data.target
+
+
+            });
+
+    }).then(function () {
+        usersData.forEach(function (d) {
+            console.log(d)
+    })
+})  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Static Graph
 
 const margin = { top: 10, right: 30, bottom: 30, left: 60 },
     width = 460 - margin.left - margin.right,
@@ -12,8 +101,7 @@ const svg = d3.select("#canvas")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/connectedscatter.csv",
+d3.csv("./data/graphData.csv",
 
     function (d) {
         return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value }
