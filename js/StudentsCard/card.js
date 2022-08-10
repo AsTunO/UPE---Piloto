@@ -25,8 +25,13 @@ d3.csv("./data/user_list_see.csv",
         populateCbOptions(document.getElementById("students"), users)
     });
 
+
+const tag = document.getElementById('student-name');
 const selector = document.getElementById('students');
 selector.addEventListener('change', function () {
+
+    tag.textContent = selector.options[selector.selectedIndex].text;
+
     user = {
         id: selector.options[selector.selectedIndex].id,
         text: selector.options[selector.selectedIndex].text
