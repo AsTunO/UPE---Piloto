@@ -1,162 +1,100 @@
-function convertDate(epoch_date) {
-    return new Date(+epoch_date * 1000);
-}    
+export default (user) => {
 
-// CUIDADO
-/*function getEvent(component, action, target) {
-    d3.csv("./data/event_mapping.csv", function(data) {
-        if(((component == data.component) && (action == data.action) && target == (data.target))) {
-            return data.event;
+    function convertDate(epoch_date) {
+        return new Date(+epoch_date * 1000);
+    }
+
+    function filterByPeriod(data, period) {
+        if (data.t >= period.start && data.t <= period.end) {
+            return true;
         }
-    })
-}*/
+    }
 
-usersData = []
+    let userData = [];
 
-d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv",
-
-    function (data) {
-
-        usersData.push(
-            {   id: data.userid, 
-                time: convertDate(data.t),
-                //timeLast: (d3.timeParse("%Y-%m-%d")(convertDate(data.t))), // Não Funciona
-                //event: getEvent(data.component, data.action, data.target),  // CUIDADO
-                component: data.component, 
-                action: data.action, 
-                target: data.target
-
-
-            });
-
-    }).then(function () {
-        usersData.forEach(function (d) {
-            console.log(d)
-    })
-})  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Static Graph
-
-const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
-
-const svg = d3.select("#canvas")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-d3.csv("./data/graphData.csv",
-
-    function (d) {
-        return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value }
-    }).then(
-
+    d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv",
         function (data) {
+            if (filterByPeriod(data, {start: 1573596966, end: 1574207999 })) { // 1 Week 
+                if (data.userid == user.id) {
+                    d3.csv("./data/event_mapping.csv", function (event) {
+                        if(data.component == event.component && data.action == event.action && data.target == event.target){
+                            
+                            let count = 0 
+                            userData.forEach(function (d) { // Check if the event already exists in the array
+                                if(d.event == event.class){
+                                    count++;
+                                }
+                            })
 
-            const x = d3.scaleTime()
-                .domain(d3.extent(data, d => d.date))
-                .range([0, width]);
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+                            if(count == 0) {
+                                userData.push({
+                                    date: d3.timeFormat("%A, %d")(convertDate(data.t)),
+                                    event: event.class
+                                });
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    )
 
-            const y = d3.scaleLinear()
-                .domain([8000, 9200])
-                .range([height, 0]);
-            svg.append("g")
-                .call(d3.axisLeft(y));
+    console.log(userData);
 
-            svg.append("path")
-                .datum(data)
-                .attr("fill", "none")
-                .attr("stroke", "#69b3a2")
-                .attr("stroke-width", 1.5)
-                .attr("d", d3.line()
-                    .x(d => x(d.date))
-                    .y(d => y(d.value))
-                )
+    // Static Graph
+    d3.select("svg").remove();
 
-            svg
-                .append("g")
-                .selectAll("dot")
-                .data(data)
-                .join("circle")
-                .attr("cx", d => x(d.date))
-                .attr("cy", d => y(d.value))
-                .attr("r", 5)
-                .attr("fill", "#69b3a2")
-        })
+    const margin = { top: 10, right: 5, bottom: 30, left: 90 },
+        width = 860 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
+    const svg = d3.select("#canvas")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-/*const DATASTORE = {
-    curse_infos: null,
-    event_mapping: null,
-}
+    d3.csv("./data/graphData.csv", (d) => {
+        return { date: d.date, value: d.value }
+    }).then((data) => {
+        // const x = d3.scaleTime()
+        // .domain(d3.extent(data, d => d.date))
+        // .range([0, width]);
+        const x = d3.scaleBand()
+            .domain(data.map(function (d) { return d.date; }))
+            .range([0, width])
+            .padding(1);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
-d3.csv("./data/event_mapping.csv",
-    function (data) {
-        DATASTORE.event_mapping = data;
+        // const y = d3.scaleLinear()
+        const y = d3.scaleBand()
+            .domain(data.map(d => d.value))
+            .range([height, 0])
+            .padding(1);
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(d => x(d.date))
+                .y(d => y(d.value))
+            )
+
+        svg
+            .append("g")
+            .selectAll("dot")
+            .data(data)
+            .join("circle")
+            .attr("cx", d => x(d.date))
+            .attr("cy", d => y(d.value))
+            .attr("r", 5)
+            .attr("fill", "#69b3a2")
     });
-
-d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv", 
-    function (data) {
-        DATASTORE.curse_infos = data;
-    })
-
-console.log(DATASTORE); */
+}
