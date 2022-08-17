@@ -1,5 +1,16 @@
 export default (user) => {
 
+    const test = [
+        { "dat": "Seg", "eve": "" },
+        { "dat": "Ter", "eve": "Acessou curso" },
+        { "dat": "Qua", "eve": "Acessou fórum" },
+        { "dat": "Qui", "eve": "" },
+        { "dat": "Sex", "eve": "Postou no fórum" },
+        { "dat": "Sex", "eve": "Vis. Ativ." },
+        { "dat": "Sab", "eve": "Iniciou Ativ." },
+        { "dat": "Dom", "eve": "Submeteu Ativ." },
+    ]
+
     function convertDate(epoch_date) {
         return new Date(+epoch_date * 1000);
     }
@@ -38,82 +49,76 @@ export default (user) => {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv")
-        .then(function (datastore) {
+    Promise.all([
+        d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
+        d3.csv("./data/event_mapping.csv")
+    ]).then(function (data) {
+        const userData = [];
 
-            sortEventsByTime(datastore);
+        const auxEventList = [];
 
-            var userData = []
-            var auxEventList = []
+        const logs_filtered = data[0];
+        const event_mapping = data[1];
 
-            datastore.forEach(function (rawData) {
-                if (filterByPeriod(rawData) && filterByUser(rawData)) {
-                    d3.csv("./data/event_mapping.csv", function (event) {
-                        if (rawData.component == event.component && rawData.action == event.action && rawData.target == event.target) {
+        // console.log(event_mapping)
 
-                            if (auxEventList.length == 0) {
-                                auxEventList.push(event.class)
-                                userData.push({
-                                    date: d3.timeFormat("%A, %d")(convertDate(rawData.t)),
-                                    event: event.class
-                                })
-                            } else {
-                                if (!auxEventList.includes(event.class)) {
-                                    auxEventList.push(event.class)
-                                    userData.push({
-                                        date: d3.timeFormat("%A, %d")(convertDate(rawData.t)),
-                                        event: event.class
-                                    })
-                                }
-                            }
+        sortEventsByTime(logs_filtered);
 
-                            return userData
-
+        logs_filtered.forEach(function (rawData) {
+            if (filterByPeriod(rawData) && filterByUser(rawData)) {
+                // console.log(rawData);
+                event_mapping.forEach((event) => {
+                    if (rawData.component == event.component && rawData.action == event.action && rawData.target == event.target) {
+                        if ((auxEventList.length == 0) || !auxEventList.includes(event.class)) {
+                            auxEventList.push(event.class)
+                            userData.push({
+                                date: d3.timeFormat("%A, %d")(convertDate(rawData.t)),
+                                event: event.class
+                            })
                         }
-                    }).then(function (data) {
-
-                      
-                            const x = d3.scaleBand()
-                                .domain(data[0].map(function (d) { return d.date; }))
-                                .range([0, width])
-                                .padding(1);
-                            svg.append("g")
-                                .attr("transform", "translate(0," + height + ")")
-                                .call(d3.axisBottom(x));
-
-                            // const y = d3.scaleLinear()
-                            const y = d3.scaleBand()
-                                .domain(data[0].map(d => d.event))
-                                .range([height, 0])
-                                .padding(1);
-                            svg.append("g")
-                                .call(d3.axisLeft(y));
-
-                            svg.append("path")
-                                .datum(data[0])
-                                .attr("fill", "none")
-                                .attr("stroke", "#69b3a2")
-                                .attr("stroke-width", 2)
-                                .attr("d", d3.line()
-                                    .x(d => x(d.date))
-                                    .y(d => y(d.event))
-                                )
-
-                            svg
-                                .append("g")
-                                .selectAll("dot")
-                                .data(data[0])
-                                .join("circle")
-                                .attr("cx", d => x(d.date))
-                                .attr("cy", d => y(d.event))
-                                .attr("r", 5)
-                                .attr("fill", "#69b3a2")
-
-                    })
-                }
+                    }
+                });
             }
+        });
+
+        console.log(userData)
+        const x = d3.scaleBand()
+            .domain(userData.map(d => d.date))
+            // .domain(data[0].map(d => d.date))
+            .range([0, width])
+            .padding(1);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // const y = d3.scaleLinear()
+        const y = d3.scaleBand()
+            .domain(userData.map(d => d.event))
+            // .domain(data[0].map(d => d.event))
+            .range([height, 0])
+            .padding(1);
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        svg.append("path")
+            .datum(userData)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(d => x(d.date))
+                .y(d => y(d.event))
             )
-        })
 
+        svg
+            .append("g")
+            .selectAll("dot")
+            .data(userData)
+            .join("circle")
+            .attr("cx", d => x(d.date))
+            .attr("cy", d => y(d.event))
+            .attr("r", 5)
+            .attr("fill", "#69b3a2")
 
+    });
 }
