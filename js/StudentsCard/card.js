@@ -1,22 +1,7 @@
 import createGraph from '../LineChart/graph.js';
+import populateCbOptions from '../Tools/AuxFunctions/populateCbOptions.js'
 
 let users = [];
-let user = {};
-
-function populateCbOptions(cbelement, options, selectedIndex = 0) {
-    cbelement.options.length = 0;
-
-    options.forEach((op, index) => {
-        var newOption = document.createElement("option");
-        newOption.id = op.id;
-        newOption.text = op.text;
-
-        if (index == selectedIndex) {
-            newOption.setAttribute('selected', 'selected');
-        }
-        cbelement.add(newOption);
-    });
-}
 
 d3.csv("./data/user_list_see.csv",
     function (data) {
@@ -25,6 +10,8 @@ d3.csv("./data/user_list_see.csv",
         populateCbOptions(document.getElementById("students"), users)
     });
 
+let user = { id: "239", text: "Isabelle Santos" }; // Default Student
+createGraph(user);
 
 const tag = document.getElementById('student-name');
 const selector = document.getElementById('students');
