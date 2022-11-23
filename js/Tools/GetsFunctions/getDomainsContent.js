@@ -24,7 +24,9 @@ function getDomainsContent(event_mapping_data, logs_filtered_by_period) {
     var event_mapping_class = []
 
     event_mapping_data.forEach((e) => {
-        event_mapping_class.push(e.class)
+        if (e.class != "forum_followup" && e.class != "message_read" && e.class != "message_sent") { // Not Important
+            event_mapping_class.push(e.class)
+        }
     })
 
     var events = event_mapping_class.filter((current, i) =>
