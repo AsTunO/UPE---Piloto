@@ -1,7 +1,8 @@
 import filterByUser from '../FiltersFunctions/filterByUser.js'
 import epochToDate from '../DateFunctions/epochToDate.js';
+import getUserGrade from './getUserGrade.js';
 
-function getUserData(logs_filtered_by_period, event_mapping_data, user) {
+function getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user) {
 
     let userData = []
     let auxEventList = []
@@ -22,6 +23,8 @@ function getUserData(logs_filtered_by_period, event_mapping_data, user) {
         }
     });
 
+    userData.push({ grade: getUserGrade(user, logs_grades)})
+    
     return userData
 }
 

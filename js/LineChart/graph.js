@@ -1,5 +1,7 @@
 function createGraph(domainsContent, userData) {
 
+    userData.pop() // Remove the grade
+
     d3.select("svg").remove();
 
     const margin = { top: 10, right: 5, bottom: 30, left: 90 },
