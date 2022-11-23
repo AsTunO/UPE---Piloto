@@ -38,11 +38,13 @@ Promise.all([
     setUserGrade(userData[userData.length - 1])
     createGraph(domainsContent, userData);
 
-    const tag = document.getElementById('student-name');
+    const tagGraph = document.getElementById('student-name-graph');
+    const tagGrade = document.getElementById('student-name-grade');
     const selector = document.getElementById('students');
     selector.addEventListener('change', function () {
 
-        tag.textContent = selector.options[selector.selectedIndex].text;
+        tagGraph.textContent = selector.options[selector.selectedIndex].text;
+        tagGrade.textContent = selector.options[selector.selectedIndex].text;
         
         user.id = selector.options[selector.selectedIndex].id
         user.text = selector.options[selector.selectedIndex].text
