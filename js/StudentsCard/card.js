@@ -50,6 +50,7 @@ Promise.all([
         user.text = selector.options[selector.selectedIndex].text
 
         userData = getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user)
+
         setUserGrade(userData[userData.length - 1])
         createGraph(domainsContent, userData);
 
