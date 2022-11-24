@@ -1,5 +1,6 @@
 import createGraph from '../LineChart/graph.js';
-import populateSelect from '../Tools/AuxFunctions/populateSelect.js';
+import populateSelectStudents from '../Tools/AuxFunctions/populateSelectStudents.js';
+import populateSelectFilters from '../Tools/AuxFunctions/populateSelectFilters.js';
 import filterByPeriod from '../Tools/FiltersFunctions/filterByPeriod.js';
 import getDomainsContent from '../Tools/GetsFunctions/getDomainsContent.js'
 import sortEventByTime from '../Tools/SortsFunctions/sortEventsByTime.js'
@@ -7,17 +8,21 @@ import getUserData from '../Tools/GetsFunctions/getUserData.js'
 import setUserGrade from '../Tools/SetsFunction/setUserGrade.js'
 
 
-populateSelect("./data/user_list_see.csv")
+populateSelectStudents("./data/user_list_see.csv")
 
 Promise.all([
     d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
     d3.csv("./data/event_mapping.csv"),
-    d3.csv("./data/see_course2060_quiz_grades.csv")
+    d3.csv("./data/see_course2060_quiz_grades.csv"),
+    d3.csv("./data/see_course2060_quiz_list.csv")
 ]).then(function (data) {
 
     const logs_filtered_data = data[0]
     const event_mapping_data = data[1]
     const logs_grades = data[2]
+    const quiz_list = data[3]
+
+    populateSelectFilters(quiz_list)
 
 
     const logs_filtered_by_period = []
