@@ -6,6 +6,7 @@ import getDomainsContent from '../Tools/GetsFunctions/getDomainsContent.js'
 import sortEventByTime from '../Tools/SortsFunctions/sortEventsByTime.js'
 import getUserData from '../Tools/GetsFunctions/getUserData.js'
 import setUserGrade from '../Tools/SetsFunction/setUserGrade.js'
+import getPeriod from '../Tools/GetsFunctions/getPeriod.js'
 
 
 populateSelectStudents("./data/user_list_see.csv")
@@ -22,22 +23,40 @@ Promise.all([
     const logs_grades = data[2]
     const quiz_list = data[3]
 
-    populateSelectFilters(quiz_list)
+    let activities = populateSelectFilters(quiz_list)
 
-    const logs_filtered_by_period = []
-    logs_filtered_data.forEach((d) => {
-        if(filterByPeriod(d)) {
-            logs_filtered_by_period.push(d)
-        }
+    const activities_period = []
+    
+    activities.forEach((e) => {
+        e = e.text
+        let period = getPeriod(e, quiz_list)
+        activities_period.push({text : e, period : period})
     })
 
-    sortEventByTime(logs_filtered_by_period)
-    
-    const domainsContent = getDomainsContent(event_mapping_data, logs_filtered_by_period)
+    const logs_filtered_by_period_and_activity = []
+
+    activities_period.forEach((e) => {
+        const logs_filtered_by_period = []
+        logs_filtered_data.forEach((d) => {
+            if (filterByPeriod(d, e.period)) {
+                logs_filtered_by_period.push(d)
+            }
+        })
+        sortEventByTime(logs_filtered_by_period)
+        logs_filtered_by_period_and_activity.push({activity : e.text, logs : logs_filtered_by_period})
+    })
+
 
     // Default Student
-    let user = { id: "239", text: "Isabelle Santos"}; 
+    let user = {
+        id: "239",
+        text: "Isabelle Santos"
+    }
+
+    let selected_options = {user : user, activity: "Atividade 1"}; 
+    let logs_filtered_by_period = logs_filtered_by_period_and_activity[0].logs
     let userData = getUserData(logs_filtered_by_period, event_mapping_data,logs_grades, user)
+    let domainsContent = getDomainsContent(event_mapping_data, logs_filtered_by_period)
     setUserGrade(userData[userData.length - 1])
     createGraph(domainsContent, userData);
 
@@ -46,10 +65,6 @@ Promise.all([
     const selectorStudents = document.getElementById('students');
     const selectorActivities = document.getElementById('activities');
     let activity
-    let selected_options = {
-        user: {},
-        activity: ""
-    }
 
     function updateFields() {
         tagGraph.textContent = selectorStudents.options[selectorStudents.selectedIndex].text;
@@ -62,7 +77,29 @@ Promise.all([
         selected_options.user = user
         selected_options.activity = activity
 
-        console.log(selected_options)
+        let logs_filtered_by_period 
+        switch (activity) {
+            case "Atividade 1":
+                logs_filtered_by_period = logs_filtered_by_period_and_activity[0].logs
+                break;
+            case "Atividade 2":
+                logs_filtered_by_period = logs_filtered_by_period_and_activity[1].logs
+                break;
+            case "Atividade 3":
+                logs_filtered_by_period = logs_filtered_by_period_and_activity[2].logs
+                break;
+            case "Atividade 4":
+                logs_filtered_by_period = logs_filtered_by_period_and_activity[3].logs
+                break;
+            default:
+                break;
+        }
+
+        domainsContent = getDomainsContent(event_mapping_data, logs_filtered_by_period)        
+        
+        userData = getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user)
+        setUserGrade(userData[userData.length - 1])
+        createGraph(domainsContent, userData);
         
     }
 

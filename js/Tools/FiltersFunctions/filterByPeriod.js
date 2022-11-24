@@ -1,7 +1,7 @@
-function filterByPeriod(rawData) {
+function filterByPeriod(rawData, period) {
 
-    const timeStart = 1573596966
-    const timeEnd = 1574207999
+    const timeStart = period.start
+    const timeEnd = period.end
 
     if (rawData.t >= timeStart && rawData.t <= timeEnd) {
         return true;

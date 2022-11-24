@@ -2,7 +2,7 @@ import filterByUser from '../FiltersFunctions/filterByUser.js'
 import epochToDate from '../DateFunctions/epochToDate.js';
 import getUserGrade from './getUserGrade.js';
 
-function getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user) {
+function getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user, activity) {
 
     let userData = []
     let auxEventList = []

@@ -2,6 +2,7 @@ import filterByUser from "../FiltersFunctions/filterByUser.js"
 
 function getUserGrade(user, logs_grades) {
 
+
     let userGrades = []
 
     logs_grades.forEach((rawData) => {
@@ -15,7 +16,8 @@ function getUserGrade(user, logs_grades) {
 
     var userGrade = userGrades.length != 0 ? userGrades.reduce(reducer) : 0 // Verify if the user has any activity
     
-    return userGrade
+    return userGrade 
+
 
 }
 
