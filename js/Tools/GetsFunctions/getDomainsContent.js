@@ -1,10 +1,10 @@
 import epochToDate from "../DateFunctions/epochToDate.js"
 
-function getDomainsContent(event_mapping_data, logs_filtered_by_period) {
+function getDomainsContent(logs_filtered_by_period) {
 
     let domainsContent = {
         x : [],
-        y : []
+        y: ["course_vis", "resource_vis", "forum_vis", "forum_participation", "assignment_vis", "assignment_try", "assignment_sub"]
     }
 
     // Get the period to be worked
@@ -19,22 +19,6 @@ function getDomainsContent(event_mapping_data, logs_filtered_by_period) {
     )
 
     domainsContent.x = period
-
-    // Get the events
-    var event_mapping_class = []
-
-    event_mapping_data.forEach((e) => {
-        if (e.class != "forum_followup" && e.class != "message_read" && e.class != "message_sent") { // Not Important
-            event_mapping_class.push(e.class)
-        }
-    })
-
-    var events = event_mapping_class.filter((current, i) =>
-        event_mapping_class.indexOf(current) === i
-    )
-
-    domainsContent.y = events
-
 
     return domainsContent
 }
