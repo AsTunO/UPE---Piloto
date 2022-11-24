@@ -8,7 +8,7 @@ function populateSelectFilters(content) {
         activities.push({id: e.id, text: e.name})
     });
 
-    populateCbOptions(document.getElementById("filters"), activities)
+    populateCbOptions(document.getElementById("activities"), activities)
 
 }
 

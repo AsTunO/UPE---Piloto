@@ -24,7 +24,6 @@ Promise.all([
 
     populateSelectFilters(quiz_list)
 
-
     const logs_filtered_by_period = []
     logs_filtered_data.forEach((d) => {
         if(filterByPeriod(d)) {
@@ -39,26 +38,35 @@ Promise.all([
     // Default Student
     let user = { id: "239", text: "Isabelle Santos"}; 
     let userData = getUserData(logs_filtered_by_period, event_mapping_data,logs_grades, user)
-
     setUserGrade(userData[userData.length - 1])
     createGraph(domainsContent, userData);
 
     const tagGraph = document.getElementById('student-name-graph');
     const tagGrade = document.getElementById('student-name-grade');
-    const selector = document.getElementById('students');
-    selector.addEventListener('change', function () {
+    const selectorStudents = document.getElementById('students');
+    const selectorActivities = document.getElementById('activities');
+    let activity
+    let selected_options = {
+        user: {},
+        activity: ""
+    }
 
-        tagGraph.textContent = selector.options[selector.selectedIndex].text;
-        tagGrade.textContent = selector.options[selector.selectedIndex].text;
+    function updateFields() {
+        tagGraph.textContent = selectorStudents.options[selectorStudents.selectedIndex].text;
+        tagGrade.textContent = selectorStudents.options[selectorStudents.selectedIndex].text;
+
+        user.id = selectorStudents.options[selectorStudents.selectedIndex].id
+        user.text = selectorStudents.options[selectorStudents.selectedIndex].text
+        activity = selectorActivities.options[selectorActivities.selectedIndex].text
+
+        selected_options.user = user
+        selected_options.activity = activity
+
+        console.log(selected_options)
         
-        user.id = selector.options[selector.selectedIndex].id
-        user.text = selector.options[selector.selectedIndex].text
+    }
 
-        userData = getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user)
-
-        setUserGrade(userData[userData.length - 1])
-        createGraph(domainsContent, userData);
-
-    });
+    selectorStudents.addEventListener('change', () => updateFields())
+    selectorActivities.addEventListener('change', () => updateFields())
 
 })
