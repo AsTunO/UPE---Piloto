@@ -8,7 +8,6 @@ import getUserData from './Tools/GetsFunctions/getUserData.js'
 import setUserGrade from './Tools/SetsFunction/setUserGrade.js'
 import getPeriod from './Tools/GetsFunctions/getPeriod.js'
 
-
 populateSelectStudents("./data/user_list_see.csv")
 
 Promise.all([
@@ -46,7 +45,6 @@ Promise.all([
         logs_filtered_by_period_and_activity.push({activity : e.text, logs : logs_filtered_by_period})
     })
 
-
     // Default Student
     let user = {
         id: "239",
@@ -78,22 +76,12 @@ Promise.all([
         selected_options.activity = activity
 
         let logs_filtered_by_period 
-        switch (activity) {
-            case "Atividade 1":
-                logs_filtered_by_period = logs_filtered_by_period_and_activity[0].logs
-                break;
-            case "Atividade 2":
-                logs_filtered_by_period = logs_filtered_by_period_and_activity[1].logs
-                break;
-            case "Atividade 3":
-                logs_filtered_by_period = logs_filtered_by_period_and_activity[2].logs
-                break;
-            case "Atividade 4":
-                logs_filtered_by_period = logs_filtered_by_period_and_activity[3].logs
-                break;
-            default:
-                break;
-        }
+
+        logs_filtered_by_period_and_activity.forEach((e) => {
+            if(activity == e.activity) {
+                logs_filtered_by_period = e.logs
+            }
+        })
 
         domainsContent = getDomainsContent(logs_filtered_by_period)        
         userData = getUserData(logs_filtered_by_period, event_mapping_data, logs_grades, user)
