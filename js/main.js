@@ -1,9 +1,8 @@
 import populateSelectFilters from "./Functions/Aux/populateSelectFilters.js"
-import updateGraph from "./Functions/Update/updateGraph.js"
+import createGraph from "./Functions/Update/createGraph.js"
 import getPeriod from "./Functions/Gets/getPeriod.js"
 import filterByPeriod from "./Functions/Filters/filterByPeriod.js"
 import sortEventsByTime from "./Functions/Sorts/sortEventsByTime.js"
-import getDomainsContent from "./Functions/Gets/getDomainsContent.js"
 
 Promise.all([
     d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
@@ -40,15 +39,8 @@ Promise.all([
         logs_filtered_by_period_and_activity.push({ activity: e.text, logs: logs_filtered_by_period })
     })
 
-
-    // Default Graph
-
-    let activity = "Atividade 1"
-    let logs_selected = logs_filtered_by_period_and_activity[0].logs
-    let domainsContent = getDomainsContent(logs_selected)
-
     const selectorActivities = document.getElementById('activities');
 
-    selectorActivities.addEventListener('change', () => updateGraph(selectorActivities, logs_filtered, event_mapping))
+    selectorActivities.addEventListener('change', () => createGraph(selectorActivities, logs_filtered_by_period_and_activity, event_mapping, users))
 
 })
