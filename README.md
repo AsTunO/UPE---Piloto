@@ -1,3 +1,3 @@
 # UPE---Piloto
 
-Site : https://ic-datastorytelling-graph-all-usrs-wy.netlify.app/
+https://graph-50w-50b-ways.netlify.app/
