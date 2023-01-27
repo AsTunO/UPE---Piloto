@@ -1,4 +1,4 @@
-function generateGraph(domainsContent, all_users_ways) {
+function generateGraph(domainsContent, all_min_users_ways, all_max_users_ways) {
 
     d3.select("svg").remove();
 
@@ -29,7 +29,7 @@ function generateGraph(domainsContent, all_users_ways) {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    all_users_ways.forEach((e) => {
+    all_min_users_ways.forEach((e) => {
         
         // Draw Lines
         svg.append("path")
@@ -50,6 +50,29 @@ function generateGraph(domainsContent, all_users_ways) {
             .attr("cy", d => y(d.event))
             .attr("r", 5)
             .attr("fill", "#69b3a2")
+    });
+
+    all_max_users_ways.forEach((e) => {
+
+        // Draw Lines
+        svg.append("path")
+            .datum(e)
+            .attr("fill", "none")
+            .attr("stroke", "#FF0000")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(d => x(d.date))
+                .y(d => y(d.event)))
+
+        // Draw Dots
+        svg.append("g")
+            .selectAll("dot")
+            .data(e)
+            .join("circle")
+            .attr("cx", d => x(d.date))
+            .attr("cy", d => y(d.event))
+            .attr("r", 5)
+            .attr("fill", "#FF0000")
     });
 
 }
