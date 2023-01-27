@@ -1,5 +1,0 @@
-﻿"course_id","course_name","course_start","course_end","section_id","section_name","section","availability","section_closes"
-2060,Cargos e Salários (RHM) 2019.2,1573527600,1576032900,16070,Competência 4,1,"{""op"":""&"",""c"":[{""type"":""date"",""d"":"">="",""t"":1575342000}],""showc"":[false]}",1576032900
-2060,Cargos e Salários (RHM) 2019.2,1573527600,1576032900,16071,Competência 3,2,"{""op"":""&"",""c"":[{""type"":""date"",""d"":"">="",""t"":1574737200}],""showc"":[false]}",1575342000
-2060,Cargos e Salários (RHM) 2019.2,1573527600,1576032900,16072,Competência 2,3,"{""op"":""&"",""showc"":[false],""c"":[{""type"":""date"",""d"":"">="",""t"":1574132400}]}",1574737200
-2060,Cargos e Salários (RHM) 2019.2,1573527600,1576032900,16073,Competência 1,4,"{""op"":""&"",""showc"":[false],""c"":[{""type"":""date"",""d"":"">="",""t"":1573527600}]}",1574132400
