@@ -1,20 +1,25 @@
 import createGraph from "./BubbleChart/createGraph.js";
 import populateSelectFilters from "./Tools/AuxFunctions/populateSelectFilters.js";
-import filterLogsByPeriodAndActivity from "./Tools/FiltersFunctions/filterLogsByPeriodAndActivity.js"
+import filterLogsByPeriodAndActivity from "./Tools/FiltersFunctions/filterLogsByPeriodAndActivity.js";
+import filterData from "./Tools/FiltersFunctions/filterData.js";
 
 Promise.all([
     d3.csv("./data/see_course2060_quiz_list.csv"),
-    d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv")
+    d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
+    d3.csv("./data/event_mapping.csv")
 ]).then(function (data) {
 
     const quizList = data[0]
     const logs = data[1]
+    const eventMapping = data[2]
 
     const activities = populateSelectFilters(quizList)
-    //const graphData = filterLogsByPeriodAndActivity(logs, activities, quizList)
+    const graphData = filterLogsByPeriodAndActivity(logs, activities, quizList)
 
+    const index = 0
+    const data_to_be_plotted = filterData(graphData[index].logs, eventMapping)
 
-    //const data_to_be_plotted = filterData(quiz_list, logs)
+    console.log(data_to_be_plotted)
 
     const defaultData = [{ date: "Tuesday, 19", event: "course_vis", tot: 10 }, { date: "Saturday, 23", event: "resource_vis", tot: 20 }, { date: "Monday, 25", event: "assignment_vis", tot: 30 }, { date: "Saturday, 23", event: "assignment_try", tot: 40 }, { date: "Friday, 22", event: "assignment_sub", tot: 50 }]
     const domainContent = {x : ["Tuesday, 19","Wednesday, 20","Thursday, 21","Friday, 22","Saturday, 23","Sunday, 24","Monday, 25","Tuesday, 26"],
