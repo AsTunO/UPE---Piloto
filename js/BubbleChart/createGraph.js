@@ -31,7 +31,7 @@ function createGraph(domainsContent, data) {
 
     // Add a scale for bubble size
     var z = d3.scaleLinear()
-        .domain([0, 100])
+        .domain([0, 10000])
         .range([1, 40]);
 
     // Add dots

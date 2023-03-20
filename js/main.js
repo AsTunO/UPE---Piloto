@@ -2,6 +2,7 @@ import createGraph from "./BubbleChart/createGraph.js";
 import populateSelectFilters from "./Tools/AuxFunctions/populateSelectFilters.js";
 import filterLogsByPeriodAndActivity from "./Tools/FiltersFunctions/filterLogsByPeriodAndActivity.js";
 import filterData from "./Tools/FiltersFunctions/filterData.js";
+import getDomainsContent from "./Tools/GetsFunctions/getDomainsContent.js";
 
 Promise.all([
     d3.csv("./data/see_course2060_quiz_list.csv"),
@@ -17,16 +18,19 @@ Promise.all([
     const graphData = filterLogsByPeriodAndActivity(logs, activities, quizList)
 
     const index = 0
-    const data_to_be_plotted = filterData(graphData[index].logs, eventMapping)
+    const domainContent = getDomainsContent(graphData[index].logs) 
+    const data_to_be_plotted = filterData(graphData[index].logs, eventMapping, domainContent)
 
-    console.log(data_to_be_plotted)
-
-    const defaultData = [{ date: "Tuesday, 19", event: "course_vis", tot: 10 }, { date: "Saturday, 23", event: "resource_vis", tot: 20 }, { date: "Monday, 25", event: "assignment_vis", tot: 30 }, { date: "Saturday, 23", event: "assignment_try", tot: 40 }, { date: "Friday, 22", event: "assignment_sub", tot: 50 }]
-    const domainContent = {x : ["Tuesday, 19","Wednesday, 20","Thursday, 21","Friday, 22","Saturday, 23","Sunday, 24","Monday, 25","Tuesday, 26"],
-                            y: ["course_vis", "resource_vis", "forum_vis", "forum_participation", "assignment_vis", "assignment_try", "assignment_sub"]}
     
-    createGraph(domainContent, defaultData)
+    createGraph(domainContent, data_to_be_plotted)
 
-    /*const selectorActivities = document.getElementById('activities');
-    selectorActivities.addEventListener('change', () => {})*/
+    const selectorActivities = document.getElementById('activities');
+    let tagGraph = document.getElementById('student-name-graph');
+    selectorActivities.addEventListener('change', () => {
+        tagGraph.textContent = selectorActivities.options[selectorActivities.selectedIndex].text;
+        const index = selectorActivities.selectedIndex
+        const domainContent = getDomainsContent(graphData[index].logs)
+        const data_to_be_plotted = filterData(graphData[index].logs, eventMapping, domainContent)
+        createGraph(domainContent, data_to_be_plotted)
+    })
 })
