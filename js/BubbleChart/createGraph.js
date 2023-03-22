@@ -1,4 +1,4 @@
-function createGraph(domainsContent, data) {
+function createGraph(domainsContent, data, firstAccess) {
 
     d3.select("svg").remove();
 
@@ -29,10 +29,17 @@ function createGraph(domainsContent, data) {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    // Add a scale for bubble size
-    var z = d3.scaleLinear()
-        .domain([0, 10000])
-        .range([1, 40]);
+    if(firstAccess == true) {
+        // Add a scale for bubble size
+        var z = d3.scaleLinear()
+            .domain([0, 2500])
+            .range([1, 40]);
+    }else {
+        // Add a scale for bubble size
+        var z = d3.scaleLinear()
+            .domain([0, 10000])
+            .range([1, 40]);
+    }
 
     // Add dots
     svg.append('g')
