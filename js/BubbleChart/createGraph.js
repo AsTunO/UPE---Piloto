@@ -41,6 +41,7 @@ function createGraph(domainsContent, data, firstAccess) {
             .range([1, 40]);
     }
 
+    // Get the bubble color 
     function myColor(average) {
         let color = ""
         if(average < 4.1) {
@@ -51,6 +52,39 @@ function createGraph(domainsContent, data, firstAccess) {
             color = "#008000"
         }
         return color
+    }
+
+    // -1- Create a tooltip div that is hidden by default:
+    const tooltip = d3.select("#canvas")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "black")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+        .style("color", "white")
+
+    // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+    const showTooltip = function (event, d) {
+        tooltip
+            .transition()
+            .duration(200)
+        tooltip
+            .style("opacity", 1)
+            .html(d.tot + " alunos participaram desse evento nesse dia.")
+            .style("left", (event.x) / 2 + "px")
+            .style("top", (event.y) / 2 + 30 + "px")
+    }
+    const moveTooltip = function (event, d) {
+        tooltip
+            .style("left", (event.x) / 2 + "px")
+            .style("top", (event.y) / 2 + 30 + "px")
+    }
+    const hideTooltip = function (event, d) {
+        tooltip
+            .transition()
+            .duration(200)
+            .style("opacity", 0)
     }
 
     // Add dots
@@ -65,6 +99,10 @@ function createGraph(domainsContent, data, firstAccess) {
         .style("fill", function (d) {return myColor(d.average)})
         .style("opacity", "0.7")
         .attr("stroke", "black")
+        // -3- Trigger the functions
+        .on("mouseover", showTooltip)
+        .on("mousemove", moveTooltip)
+        .on("mouseleave", hideTooltip)
 }
 
 export default createGraph
