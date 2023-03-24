@@ -1,12 +1,13 @@
 import epochToDate from "../DateFunctions/epochToDate.js"
+import getUserGrade from "../GetsFunctions/getUserGrade.js"
 
-function filterData(logs, eventMapping, domainContent, firstAccess) {
+function filterData(logs, eventMapping, domainContent, firstAccess, logsGrades) {
 
     let result = []
 
     domainContent.y.forEach((xi) => {
         domainContent.x.forEach((yi) => {
-            result.push({event: xi, date: yi, tot: 0})
+            result.push({event: xi, date: yi, tot: 0, totSum: 0})
         })
     })
 
@@ -18,12 +19,13 @@ function filterData(logs, eventMapping, domainContent, firstAccess) {
                         result.forEach((c) => {
                             if ((event.class == c.event) && (d3.timeFormat("%A, %d")(epochToDate(current.t)) == c.date)) {
                                 c.tot += 1
+                                c.totSum += getUserGrade(current.userid, logsGrades)
                             }
                         })
                     }
                 }
             })
-        })
+        })  
     } else {
 
         let usersAndEvents = []
@@ -42,8 +44,9 @@ function filterData(logs, eventMapping, domainContent, firstAccess) {
                                 })
                                 if(actualCondition == true){
                                     c.tot += 1
+                                    c.totSum += getUserGrade(current.userid, logsGrades)
                                     usersAndEvents.push({userid : current.userid, event: c.event})
-                                }
+                                }   
                             }
                         })
                     }

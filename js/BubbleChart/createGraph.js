@@ -41,6 +41,18 @@ function createGraph(domainsContent, data, firstAccess) {
             .range([1, 40]);
     }
 
+    function myColor(average) {
+        let color = ""
+        if(average < 4.1) {
+            color = "#FF0000"
+        }else if(average >= 4.2 && average < 5) {
+            color = "#FFF000"
+        }else {
+            color = "#008000"
+        }
+        return color
+    }
+
     // Add dots
     svg.append('g')
         .selectAll("dot")
@@ -50,7 +62,7 @@ function createGraph(domainsContent, data, firstAccess) {
         .attr("cx", function (d) { return x(d.date); })
         .attr("cy", function (d) { return y(d.event); })
         .attr("r", function (d) { return z(d.tot); })
-        .style("fill", "#69b3a2")
+        .style("fill", function (d) {return myColor(d.average)})
         .style("opacity", "0.7")
         .attr("stroke", "black")
 }

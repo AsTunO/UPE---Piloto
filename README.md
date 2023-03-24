@@ -1,3 +1,3 @@
 # UPE---Piloto
 
-Site : https://bubble-chart-ic.netlify.app/
+Site : https://ic-datastorytelling-graph-by-activity.netlify.app/
