@@ -1,4 +1,4 @@
-function createGraph(domainsContent, data, firstAccess) {
+function createGraph(dataToBePlotted, firstAccess) {
 
     d3.select("svg").remove();
 
@@ -15,7 +15,7 @@ function createGraph(domainsContent, data, firstAccess) {
 
     // Draw X domain
     const x = d3.scaleBand()
-        .domain((domainsContent.x).map(d => d))
+        .domain((dataToBePlotted.domainContent.x).map(d => d))
         .range([0, width])
         .padding(1);
     svg.append("g")
@@ -23,7 +23,7 @@ function createGraph(domainsContent, data, firstAccess) {
         .call(d3.axisBottom(x));
 
     // Draw Y domain
-    const y = d3.scaleBand().domain((domainsContent.y).map(d => d))
+    const y = d3.scaleBand().domain((dataToBePlotted.domainContent.y).map(d => d))
         .range([height, 0])
         .padding(1);
     svg.append("g")
@@ -90,13 +90,13 @@ function createGraph(domainsContent, data, firstAccess) {
     // Add dots
     svg.append('g')
         .selectAll("dot")
-        .data(data)
+        .data(dataToBePlotted.bubblesContent)
         .enter()
         .append("circle")
         .attr("cx", function (d) { return x(d.date); })
         .attr("cy", function (d) { return y(d.event); })
-        .attr("r", function (d) { return z(d.tot); })
-        .style("fill", function (d) {return myColor(d.average)})
+        .attr("r", function (d) { return z(d.totalCases); })
+        .style("fill", function (d) {return myColor(d.totalSumOfGrades/d.totalCases)})
         .style("opacity", "0.7")
         .attr("stroke", "black")
         // -3- Trigger the functions

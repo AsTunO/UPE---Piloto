@@ -1,57 +1,21 @@
-import createGraph from "./BubbleChart/createGraph.js";
-import populateSelectFilters from "./Tools/AuxFunctions/populateSelectFilters.js";
-import filterLogsByPeriodAndActivity from "./Tools/FiltersFunctions/filterLogsByPeriodAndActivity.js";
-import filterData from "./Tools/FiltersFunctions/filterData.js";
-import getDomainsContent from "./Tools/GetsFunctions/getDomainsContent.js";
+import generateGraph from "./Tools/AuxFunctions/generateGraph.js"
 
+let firstAccess = false
+let activity = 0
+generateGraph(activity, firstAccess)
 
-Promise.all([
-    d3.csv("./data/see_course2060_quiz_list.csv"),
-    d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
-    d3.csv("./data/event_mapping.csv"),
-    d3.csv("./data/see_course2060_quiz_grades.csv")
-]).then(function (data) {
+const selectorActivities = document.getElementById('activities');
+const checkboxContent = document.getElementById('checkbox-content');
+let tagGraph = document.getElementById('student-name-graph');
 
-    const quizList = data[0]
-    const logs = data[1]
-    const activities = populateSelectFilters(quizList)
-    const eventMapping = data[2]
-    const logsGrades = data[3]
+function updateFields() {
 
-    const graphData = filterLogsByPeriodAndActivity(logs, activities, quizList)
+    checkboxContent.checked ? firstAccess = true : firstAccess = false
+    activity = selectorActivities.selectedIndex
+    generateGraph(activity, firstAccess)
+    tagGraph.textContent = selectorActivities.options[selectorActivities.selectedIndex].text;
 
-    let index = 0
-    let firstAccess = false
-    const domainContent = getDomainsContent(graphData[index].logs)
-    const data_to_be_plotted = filterData(graphData[index].logs, eventMapping, domainContent, firstAccess, logsGrades)
+}
+selectorActivities.addEventListener('change', () => updateFields())
+checkboxContent.addEventListener('change', () => updateFields())
 
-    let finalData = []
-    data_to_be_plotted.forEach((current) => {
-        finalData.push({event : current.event, date: current.date, tot: current.tot, average: current.totSum/current.tot})
-    })
-
-    createGraph(domainContent, finalData, firstAccess)
-
-    const selectorActivities = document.getElementById('activities');
-    let tagGraph = document.getElementById('student-name-graph');
-    const checkboxContent = document.getElementById('checkbox-content');
-
-    function updateFields() {
-
-
-        checkboxContent.checked ? firstAccess = true : firstAccess = false
-
-        tagGraph.textContent = selectorActivities.options[selectorActivities.selectedIndex].text;
-        const index = selectorActivities.selectedIndex
-        const domainContent = getDomainsContent(graphData[index].logs)
-        const data_to_be_plotted = filterData(graphData[index].logs, eventMapping, domainContent, firstAccess, logsGrades)
-        let finalData = []
-        data_to_be_plotted.forEach((current) => {
-            finalData.push({ event: current.event, date: current.date, tot: current.tot, average: current.totSum / current.tot })
-        })
-        createGraph(domainContent, finalData, firstAccess)
-
-    }
-    selectorActivities.addEventListener('change', () => updateFields())
-    checkboxContent.addEventListener('change', () => updateFields())
-})

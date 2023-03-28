@@ -12,8 +12,6 @@ function populateSelectFilters(content) {
 
     populateCbOptions(document.getElementById("activities"), activities)
 
-    return activities
-
 }
 
 export default populateSelectFilters
