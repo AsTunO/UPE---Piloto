@@ -1,12 +1,15 @@
 import filterByUser from "../FiltersFunctions/filterByUser.js"
+import mapRange from "../AuxFunctions/mapRange.js"
 
-function getUserGrade(user, DATASTORE) {
+function getUserGrade(user, quizGrades) {
+
+    
 
     let userGrades = []
 
-    DATASTORE.quizGrades.forEach((rawData) => {
+    quizGrades.forEach((rawData) => {
         if (filterByUser(rawData, user)) {
-            userGrades.push(parseFloat(rawData.student_grade))
+            userGrades.push(mapRange(parseFloat(rawData.student_grade)))
         }
     });
     const reducer = (accumulator, current) => accumulator + current

@@ -1,6 +1,7 @@
 function createGraph(dataToBePlotted, firstAccess) {
 
-    d3.select("svg").remove();
+    d3.select("svg").remove()
+    d3.select(".tooltip").remove();
 
     const margin = { top: 10, right: 5, bottom: 30, left: 90 },
         width = 860 - margin.left - margin.right,
@@ -37,16 +38,16 @@ function createGraph(dataToBePlotted, firstAccess) {
     }else {
         // Add a scale for bubble size
         var z = d3.scaleLinear()
-            .domain([0, 10000])
+            .domain([0, 10000]) 
             .range([1, 40]);
     }
 
     // Get the bubble color 
     function myColor(average) {
         let color = ""
-        if(average < 4.1) {
+        if(average < 4) {
             color = "#FF0000"
-        }else if(average >= 4.2 && average < 5) {
+        }else if(average >= 4.1 && average < 6.9) {
             color = "#FFF000"
         }else {
             color = "#008000"
@@ -71,7 +72,7 @@ function createGraph(dataToBePlotted, firstAccess) {
             .duration(200)
         tooltip
             .style("opacity", 1)
-            .html(d.tot + " alunos participaram desse evento nesse dia.")
+            .html(d.totalCases + " alunos participaram desse evento nesse dia.")
             .style("left", (event.x) / 2 + "px")
             .style("top", (event.y) / 2 + 30 + "px")
     }

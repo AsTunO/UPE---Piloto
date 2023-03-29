@@ -19,7 +19,6 @@ async function generateGraph(activity, firstAccess) {
     });
     
     const DATASTORE = await data;
-    populateSelectFilters(DATASTORE.quizList)
     let dataToBePlotted = filterData(DATASTORE, activity, firstAccess)
     createGraph(dataToBePlotted, firstAccess)
 }
