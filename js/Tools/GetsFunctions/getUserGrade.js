@@ -3,8 +3,6 @@ import mapRange from "../AuxFunctions/mapRange.js"
 
 function getUserGrade(user, quizGrades) {
 
-    
-
     let userGrades = []
 
     quizGrades.forEach((rawData) => {

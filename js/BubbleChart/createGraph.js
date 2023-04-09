@@ -30,15 +30,29 @@ function createGraph(dataToBePlotted, firstAccess) {
     svg.append("g")
         .call(d3.axisLeft(y));
 
+
+    function getAdditionalInformation(d, totalStudents) {
+
+        let percent = ((d.totalCases / totalStudents) * 100).toFixed(2)
+        if(percent > 100) {
+            return (d.totalCases + " ocorrências")
+        }
+        else {
+            return (percent + "% alunos participaram desse evento nesse dia.")
+        }
+    }
+
     if(firstAccess == true) {
         // Add a scale for bubble size
         var z = d3.scaleLinear()
-            .domain([0, 2500])
+            .domain([300, 2500]) // ALERT
             .range([1, 40]);
+
+            
     }else {
         // Add a scale for bubble size
         var z = d3.scaleLinear()
-            .domain([0, 10000]) 
+            .domain([1350, 10000]) // ALERT
             .range([1, 40]);
     }
 
@@ -72,10 +86,11 @@ function createGraph(dataToBePlotted, firstAccess) {
             .duration(200)
         tooltip
             .style("opacity", 1)
-            .html(d.totalCases + " alunos participaram desse evento nesse dia.")
+            .html(getAdditionalInformation(d, dataToBePlotted.totalStudents))
             .style("left", (event.x) / 2 + "px")
             .style("top", (event.y) / 2 + 30 + "px")
     }
+
     const moveTooltip = function (event, d) {
         tooltip
             .style("left", (event.x) / 2 + "px")

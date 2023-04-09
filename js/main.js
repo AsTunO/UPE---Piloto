@@ -24,4 +24,3 @@ function updateFields() {
 }
 selectorActivities.addEventListener('change', () => updateFields())
 checkboxContent.addEventListener('change', () => updateFields())
-
