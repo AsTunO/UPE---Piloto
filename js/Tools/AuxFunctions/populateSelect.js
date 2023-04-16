@@ -1,16 +1,17 @@
 import populateCbOptions from "./populateCbOptions.js";
 
-function populateSelect(path) {
+function populateSelect(content, IDTag, idField, nameField) {
 
-    let users = [];
+    let result = [];
 
-    d3.csv(path,
-        function (data) {
-            users.push({ id: data.userid, text: data.name });
-        }).then(function () {
-            populateCbOptions(document.getElementById("students"), users)
-        });
-
+    content.forEach((e) => {
+        result.push({ 
+            id: e[idField], 
+            text: e[nameField] 
+        })
+    });
+ 
+    populateCbOptions(document.getElementById(IDTag), result)
 }
 
 export default populateSelect
