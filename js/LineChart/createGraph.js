@@ -1,6 +1,7 @@
 function createGraph(data) {
 
     d3.select("svg").remove();
+    d3.select(".tooltip").remove();
 
     const margin = { top: 10, right: 5, bottom: 30, left: 90 },
         width = 860 - margin.left - margin.right,
@@ -18,23 +19,28 @@ function createGraph(data) {
         .domain((data.domainContent.x).map(d => d))
         .range([0, width])
         .padding(1);
+    
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
 
     // Draw Y domain
     const y = d3.scaleBand()
-        .domain((data.domainContent.y).map(d => d))
+        .domain((data.domainContent.y).map(d => d.text))
         .range([height, 0])
         .padding(1);
     svg.append("g")
+        .classed("y-axis", true)
         .call(d3.axisLeft(y));
+
+    // Hide Y axis
+    svg.select(".y-axis").style("display", "none");
 
     // Draw Lines
     svg.append("path")
         .datum(data.dotsContent)
         .attr("fill", "none")
-        .attr("stroke", "#69b3a2")
+        .attr("stroke", "#000000")
         .attr("stroke-width", 2)
         .attr("d", d3.line()
             .x(d => x(d.date))
@@ -44,11 +50,16 @@ function createGraph(data) {
     svg.append("g")
         .selectAll("dot")
         .data(data.dotsContent)
-        .join("circle")
-        .attr("cx", d => x(d.date))
-        .attr("cy", d => y(d.event))
-        .attr("r", 5)
-        .attr("fill", "#69b3a2") 
+        .join("text")
+        .attr("class", "fa-solid") // adiciona a classe do ícone
+        .attr("x", d => x(d.date))
+        .attr("y", d => y(d.event))
+        .style("font-size", "20px") // ajuste o tamanho do ícone conforme necessário
+        .style("fill", d => d["icon"].color)
+        .text(d => d["icon"].unicode) // código Unicode do ícone Font Awesome (no caso, o ícone "eye")
+        .attr("text-anchor", "middle") // centraliza o ícone no ponto (x, y)
+        .attr("dominant-baseline", "middle")
+
 }
 
 export default createGraph

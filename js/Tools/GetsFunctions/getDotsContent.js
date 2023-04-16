@@ -1,5 +1,6 @@
 import filterByUser from "../FiltersFunctions/filterByUser.js";
 import epochToDate from "../DateFunctions/epochToDate.js"
+import getIcon from "../GetsFunctions/getIcon.js"
 
 function getDotsContent(DATASTORE, student) {
 
@@ -14,7 +15,8 @@ function getDotsContent(DATASTORE, student) {
             if(filterByUser(current, student) && !(eventExists)) {
                 dotsContent.push({
                     date: d3.timeFormat("%A, %d")(epochToDate(current.t)),
-                    event: event.class
+                    event: event.class,
+                    icon: getIcon(event.class)
                 })
             }
         }
