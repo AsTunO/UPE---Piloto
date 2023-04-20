@@ -46,20 +46,27 @@ function createGraph(data) {
             .x(d => x(d.date))
             .y(d => y(d.event)))
 
+
     // Draw Dots
     svg.append("g")
-        .selectAll("dot")
-        .data(data.dotsContent)
-        .join("text")
-        .attr("class", "fa-solid") // adiciona a classe do ícone
-        .attr("x", d => x(d.date))
-        .attr("y", d => y(d.event))
-        .style("font-size", "20px") // ajuste o tamanho do ícone conforme necessário
-        .style("fill", d => d["icon"].color)
-        .text(d => d["icon"].unicode) // código Unicode do ícone Font Awesome (no caso, o ícone "eye")
-        .attr("text-anchor", "middle") // centraliza o ícone no ponto (x, y)
-        .attr("dominant-baseline", "middle")
-
+    .selectAll("dot")
+    .data(data.dotsContent)
+    .join("g")
+    .attr("class", "dot") 
+    .attr("transform", d => `translate(${x(d.date)},${y(d.event)})`)
+    .call(g => {
+        g.append("circle")
+            .attr("r", 12)
+            .style("fill", "white");
+            
+        g.append("text")
+            .attr("class", "fa-solid") 
+            .style("font-size", "20px") 
+            .style("fill", d => d["icon"].color)
+            .text(d => d["icon"].unicode) 
+            .attr("text-anchor", "middle") 
+            .attr("dominant-baseline", "middle");
+    });
 }
 
 export default createGraph
