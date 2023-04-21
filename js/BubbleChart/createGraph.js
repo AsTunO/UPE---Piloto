@@ -5,7 +5,7 @@ function createGraph(dataToBePlotted, firstAccess) {
 
     const margin = { top: 10, right: 5, bottom: 30, left: 90 },
         width = 860 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 500 - margin.top - margin.bottom;
 
     const svg = d3.select("#canvas")
         .append("svg")
@@ -23,12 +23,24 @@ function createGraph(dataToBePlotted, firstAccess) {
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
 
-    // Draw Y domain
-    const y = d3.scaleBand().domain((dataToBePlotted.domainContent.y).map(d => d))
+    const yDomain = [
+        {content : "course_vis", description:"Visualização do curso"},
+        {content: "resource_vis", description:"Visualização do material"},
+        {content: "forum_vis", description: "Visualização do forum"},
+        {content: "forum_participation", description:"Participação do forum"},
+        {content:"assignment_vis", description:"Visualização da atividade"},
+        {content:"assignment_try", description:"Tentativa da atividade"},
+        {content:"assignment_sub", description:"Entrega da atividade"}
+    ]
+
+    const y = d3.scaleBand()
+        .domain(yDomain.map(d => d.content))
         .range([height, 0])
         .padding(1);
+
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y).tickFormat(d => yDomain.find(item => item.content === d).description));
+
 
 
     function getAdditionalInformation(d, totalStudents) {
