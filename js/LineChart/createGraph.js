@@ -1,16 +1,28 @@
-function createGraph(data) {
+function createGraph(data, xdomain, average) {
+    console.log(average)
 
-    d3.select("svg").remove();
-    d3.select(".tooltip").remove();
+    //d3.select("svg").remove();
+    //d3.select(".tooltip").remove();
+
+    function getColor(grade) {
+        if(grade > 7.5) {
+            return "#90EE90"
+        }else if(grade <= 7.5 && grade > 5){
+            return "#FFFFE0"
+        }else if(grade <= 5){
+            return "#FF6961"
+        }
+    }
 
     const margin = { top: 10, right: 5, bottom: 30, left: 90 },
         width = 860 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 150 - margin.top - margin.bottom;
 
     const svg = d3.select("#canvas")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .attr("style", `background-color:${getColor(average)} ;`)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -21,8 +33,14 @@ function createGraph(data) {
         .padding(1);
     
     svg.append("g")
+        .classed("x-axis", true)
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
+
+    if(xdomain == true) {
+        // Hide X axis
+        svg.select(".x-axis").style("display", "none");
+    }
 
     // Draw Y domain
     const y = d3.scaleBand()
@@ -44,7 +62,7 @@ function createGraph(data) {
         .attr("stroke-width", 2)
         .attr("d", d3.line()
             .x(d => x(d.date))
-            .y(d => y(d.event)))
+            .y(d => y(d.event)))    
 
 
     // Draw Dots
@@ -57,7 +75,7 @@ function createGraph(data) {
     .call(g => {
         g.append("circle")
             .attr("r", 12)
-            .style("fill", "white");
+            .style("fill", getColor(average));
             
         g.append("text")
             .attr("class", "fa-solid") 

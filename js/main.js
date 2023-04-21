@@ -2,9 +2,13 @@ import generateGraph from './Tools/AuxFunctions/generateGraph.js';
 import populateSelect from './Tools/AuxFunctions/populateSelect.js';
 
 let student = { id: "239", name: "Isabelle Santos" }
+let student2 = {id: '7184', name: 'Marisa Rodrigues'}
+let student3 = {id: '438', name: 'Júlio Araujo'}
 let activity = 0
 
-generateGraph(student, activity)
+generateGraph(student, activity, true)
+generateGraph(student2, activity, true)
+generateGraph(student3, activity, false)
 
 // Populate Selects
 Promise.all([
