@@ -1,7 +1,5 @@
 function generateHistogram(dataToBePlotted) {
 
-    console.log(dataToBePlotted)
-
     // ordenar os dados pelo valor da propriedade "average" em ordem crescente
     dataToBePlotted.sort((a, b) => a.average - b.average);
 
