@@ -30,6 +30,16 @@ Promise.all([
         return grupos;
     }, {});
 
-    generateHistogram(finalData)
+    let histogramData = []
+    
+    for(const key in finalData) {
+        histogramData.push({
+            average : key,
+            ids : finalData[key],
+            len: finalData[key].length
+        })
+    }
+
+    generateHistogram(histogramData)
 
 })
