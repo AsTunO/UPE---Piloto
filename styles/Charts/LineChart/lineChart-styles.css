@@ -1,0 +1,33 @@
+.linechart-container {
+    padding-top: 30px;
+    padding-left: 50px;
+}
+
+#students, #activity {
+    margin-bottom: 10px;
+}
+
+/* Estilizando o seletor de estudante */
+#students, #activity {
+    width: 200px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#lineChart {
+    position: absolute;
+    left: 400px;
+    top: 800px
+}
+
+/* Estilo para o conteúdo dentro dos seletores */
+#students option,
+#activity option {
+    font-size: 14px;
+    color: #333;
+    padding: 4px;
+}

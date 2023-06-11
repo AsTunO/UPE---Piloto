@@ -1,0 +1,8 @@
+footer {
+    height: 50px;
+    /* Defina a altura do seu footer aqui */
+    background-color: #f5f5f5;
+    text-align: center;
+    position: sticky;
+    bottom: 0;
+}
