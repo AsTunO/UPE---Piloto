@@ -1,118 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    <title>Dashboard Storytelling</title>
+    <link rel="stylesheet" href="styles/Header/header-styles.css">
+    <link rel="stylesheet" href="styles/Body/body-styles.css">
+    <link rel="stylesheet" href="styles/Body/Selectors/selectors-styles.css">
+    <link rel="stylesheet" href="styles/Body/Flow/flow-styles.css">
+    <link rel="stylesheet" href="styles/Charts/charts-styles.css">
+    <link rel="stylesheet" href="styles/Charts/BubbleChart/bubbleChart-styles.css">
+    <link rel="stylesheet" href="styles/Charts/Histogram/histogram-styles.css">
+    <link rel="stylesheet" href="styles/Charts/LineChart/lineChart-styles.css">
+    <link rel="stylesheet" href="Fonts/css/all.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <link rel="stylesheet" type="text/css" href="./css/styles.css" media="screen" />
-    <title>Scientific Initiative</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 
 <body>
+
     <header>
-        <div class="py-3 text-bg-dark">
-            <div class="container">
-                <span class="title" style="   
-                            text-align: center; 
-                            font-size: 30px; 
-                        ">
-                    Pilot Project
-                </span>
-            </div>
+        <div class="title-container">
+            <h1 class="title-header">
+                Visualização Histórica de dados
+            </h1>
+        </div>
+        <div class="nav">
+            <button class="home-button">
+                Restaurar
+            </button>
         </div>
     </header>
-
-        <h1 class="text-center" style="margin-top : 30px; margin-bottom: 30px;">
-            Dashboard
-        </h1>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div id="filter-card">
-                    <h2 class="py-students-list3 text-bg-dark" style="text-align: center; margin-top: 10px;"> Atividades </h2>
-                    <div id="students-list">
-                        <select class="form-control" id="activities">
-                            <option>Select Activity</option>
-                        </select>
+        <div class="topper-container">
+            <div class="selectors-container">
+                <div class="activity-selector-container">
+                    <div class="selector-content">
+                        Selecione a atividade
                     </div>
-                </div>
-                <div class="container" style="margin-top: 10px;">
-                    <label class="list-group-item d-flex gap-2">
-                        <input id="checkbox-content" class="form-check-input flex-shrink-0" type="checkbox" unchecked>
-                        <span>
-                            Primeiro Acesso
-                            <small class="d-block text-muted">Filtrar os dados por primeiro acesso do usuário</small>
-                        </span>
-                    </label>
-                </div>
-                <div id="graph-card">
-                    <h2 class="py-3 text-bg-dark" style="text-align: center; padding: 10px;"> Histograma </h2>
-                    <div id="canvas-histogram"></div>
+                    <select id="activity-select">
+                    </select>
                 </div>
             </div>
-            <div class="col">
-                <div id="graph-card">
-                    <h2 class="py-3 text-bg-dark" style="text-align: center; padding: 10px;"> <span id="student-name-graph">Atividade 1</span> - Gráfico de Bolhas</h2>
-                    <div id="canvas-bubble"></div>
-                </div>
+            <div class="dashboard-info-container">
+                <p>Dashboard da <span id="tag" class="bold-info">Atividade 1</span></p>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div id="student-card">
-                    <h2 class="py-students-list3 text-bg-dark" style="text-align: center;"> Estudantes </h2>
-                    <div id="students-list">
-                        <select class="form-control" id="students-line">
-                            <option>Select Student</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="filter-card">
-                    <h2 class="py-students-list3 text-bg-dark" style="text-align: center; margin-top: 10px;"> Atividades </h2>
-                    <div id="activity-list">
-                        <select class="form-control" id="activities-line">
-                            <option>Select Activity</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="events-legend-panel">
-                    <h2 class="text-bg-dark-trucate" style="text-align: center; margin-top: 15px; margin-bottom: 10px;"> Legenda </h2>
-                    <div id="icons" class="container">
-                        <p><i class="fa-solid fa-mouse-pointer" style="color: #8d6e63;"> </i> Visualização do curso</p>
-                        <p><i class="fa-solid fa-folder-open" style="color: #e64a19;"></i> Visualização dos recursos</p>
-                        <p><i class="fa-solid fa-comments" style="color: #ff94c2;"></i> Visualização do forum</p>
-                        <p><i class="fa-solid fa-comment-medical" style="color: #00bcd4"></i> Participação do forum</p>
-                        <p><i class="fa-solid fa-file-alt" style="color: #00897b;"></i> Visualização da atividade </p>
-                        <p><i class="fa-solid fa-check" style="color: #819ca9;"></i> Tentativa atividade</p>
-                        <p><i class="fa-solid fa-check-double" style="color: #c0ca33"></i> Entrega da atividade</p>
-                    </div>
-                </div>
+        <div class="common-flow-container">
+            <div class="title-common-flow">
+                Fluxo comum de passos
             </div>
-            <div class="col">
-                <div id="graph-card">
-                    <h2 class="py-3 text-bg-dark" style="text-align: center; padding: 10px;"> Gráfico de Linhas </h2>
-                    <div id="canvas-linechart"></div>
+            <div class="flow-conteiner">
+                <div class="linha-horizontal"></div>
+                <div class="circulo-container">
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-mouse-pointer" style="color: #8d6e63;"></i>
+                        </div>
+                        <span class="texto-circulo">Visualização do curso</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-folder-open" style="color: #e64a19;"></i>
+                        </div>
+                        <span class="texto-circulo">Visualização dos recursos</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-comments" style="color: #ff94c2;"></i>
+                        </div>
+                        <span class="texto-circulo">Visualização do forum</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-comment-medical" style="color: #00bcd4"></i>
+                        </div>
+                        <span class="texto-circulo">Participação do forum</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-file-alt" style="color: #00897b;"></i>
+                        </div>
+                        <span class="texto-circulo">Visualização da atividade</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-check" style="color: #819ca9;"></i>
+                        </div>
+                        <span class="texto-circulo">Tentativa da atividade</span>
+                    </div>
+                    <div class="circulo">
+                        <div class="icone-circulo">
+                            <i class="fa-solid fa-check-double" style="color: #c0ca33"></i>
+                        </div>
+                        <span class="texto-circulo">Entrega da atividade</span>
+                    </div>
                 </div>
-            </div>
+            </div>   
         </div>
+    <div class="charts-container">
+        <div class="bubblechart-container">
+            <div class="title-chart"> Gráfico de bolhas</div>
+            <div id="bubbleChart"></div>
+        </div>
+        <div class="histogram-container">
+            <div class="title-chart"> Ditribuição das notas</div>
+            <div id="histogram"></div>
+        </div>
+        <div class="linechart-select-container">
+            <div class="title-chart"> Lista de Estudantes</div>
 
-        <footer class="d-flex flex-wrap py-3 my-4 border-top">
-            <div>
-                <p class="text-muted">
-                    &copy; 2022 UPE, SI
-                </p>
-            </div>
-        </footer>
-    </div>  
+            <div class="dropdown-menu d-block position-static border-0 pt-0 mx-0 rounded-3 shadow overflow-auto w-280px" style="max-height: 250px;">
+                <form class="p-2 mb-2 border-bottom">
+                  <input type="search" class="form-control" autocomplete="false" placeholder="Procurar">
+                </form>
+                <ul id="students-list"class="list-unstyled mb-0">
+                </ul>
+              </div>
 
+        </div>
+        <div class="linechart-container">
+            <div class="title-chart"> Caminho individual</div>
+            <div id="lineChart"></div>
+        </div>          
+    </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="./js/Libs/lodash.js"></script>
     <script src="./js/main.js" type="module"></script>
 </body>
 

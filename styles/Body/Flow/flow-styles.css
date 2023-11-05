@@ -1,0 +1,49 @@
+.title-common-flow {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-large;
+    padding-top: 50px;
+    margin-left: 50px;
+}
+
+.linha-horizontal {
+    width: 100%;
+    height: 1px;
+    background-color: #000; /* Cor da linha */
+    margin-top: 30px; /* Espaço acima da linha */
+  }
+
+  .circulo-container {
+    display: flex; /* Use flexbox para alinhar os círculos horizontalmente */
+    justify-content: space-between; /* Espaço igual entre os círculos */
+    align-items: center; /* Alinhe os círculos verticalmente */
+  }
+
+  .circulo {
+    width: 30px; /* Tamanho do círculo */
+    height: 30px;
+    border-radius: 50%; /* Faz o círculo */
+    position: relative; /* Posição relativa para posicionar o texto */
+    top: -15px; /* Ajuste para mover o círculo para cima */
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .texto-circulo {
+    text-align: center; /* Centraliza o texto */
+    position: absolute; /* Posição absoluta para posicionamento abaixo do círculo */
+    bottom: -50px; /* Ajuste para levantar o círculo */
+    left: 0;
+    width: 100%;
+    font-size: 10px;
+  }
+  .icone-circulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.flow-conteiner {
+    margin-left: 50px;
+    margin-right: 50px;
+}

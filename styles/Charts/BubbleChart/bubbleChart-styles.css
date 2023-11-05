@@ -1,0 +1,14 @@
+.bubblechart-container {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 400px;
+    height: 400px;
+}
+
+.title-chart {
+    font-size: large;
+}
+
+.selected {
+    stroke: #070404; /* Cor do contorno (vermelho, você pode ajustar) */
+    stroke-width: 4px; /* Largura do contorno (você pode ajustar) */
+}

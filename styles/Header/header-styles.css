@@ -1,0 +1,31 @@
+header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(3, 3, 3, 0.849);
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.title-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.title-header {
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    font-weight: lighter;
+}
+
+.nav {
+    margin-left: auto;
+    padding-right: 20px;
+}
+
+.home-button {
+    width: 85px;
+    height: 33px;
+    border-radius: 4px;
+}
