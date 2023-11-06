@@ -190,6 +190,9 @@ svg.selectAll(".tick text")
     .style("opacity", "0.7")
     .attr("stroke", "black")
     .on("click", function (d) {
+
+        var histogramField = document.getElementById("histogram");
+        histogramField.innerHTML = ""
         var clickedCircle = d3.select(this);
         
         // Remove o contorno de todas as bolhas
