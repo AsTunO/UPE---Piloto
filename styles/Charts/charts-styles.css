@@ -17,7 +17,7 @@
 .bubblechart-container { grid-area: 1 / 1 / 2 / 5; }
 .histogram-container { grid-area: 1 / 5 / 2 / 6; }
 .linechart-select-container { grid-area: 2 / 1 / 3 / 2; }
-.linechart-container { grid-area: 2 / 2 / 3 / 6; }
+.linechart-container { grid-area: 2 / 2 / 4 / 6; }
 
 
 .grid line {
