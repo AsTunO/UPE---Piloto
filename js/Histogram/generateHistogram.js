@@ -8,7 +8,7 @@ function generateHistogram(dataToBePlotted, activity) {
     const height = 374 - margin.top - margin.bottom;
 
     const originalColor = d3.scaleLinear().domain([0, 2.5, 5, 7.5, 10]).range(['#FF0000', '#FFA500', '#FFF000', '#90EE90', '#008000']);
-    const highlightColor = 'blue';
+    console.log(dataToBePlotted)
 
     const svg = d3
         .select('#histogram')
@@ -48,26 +48,32 @@ function generateHistogram(dataToBePlotted, activity) {
         .attr('x', function (d) {
             return x(d.average);
         })
-        .attr('y', function (d) {
-            return y(d.len);
-        })
+        .attr('y', height) // Começa no fundo
         .attr('width', x.bandwidth())
-        .attr('height', function (d) {
-            return height - y(d.len);
-        })
+        .attr('height', 0) // Começa sem altura
         .style('fill', function (d) {
             return originalColor(d.average);
         })
         .on("click", function () {
             const clickedRect = d3.select(this);
-            
+
             svg.selectAll('rect')
-                .style('fill', function (d) {
-                    return (d === clickedRect.datum()) ? originalColor(d.average) : 'rgba(0, 0, 0, 0.2)';
+                .transition()
+                .duration(500)
+                .style('opacity', function (d) {
+                    return (d === clickedRect.datum()) ? 1 : 0.2;
                 });
 
             const d = clickedRect.datum();
-            lineChart(d.ids, activity);
+            lineChart(d.ids, activity, d.average);
+        })
+        .transition()
+        .duration(1000)
+        .attr('y', function (d) {
+            return y(d.len);
+        })
+        .attr('height', function (d) {
+            return height - y(d.len);
         });
 }
 
