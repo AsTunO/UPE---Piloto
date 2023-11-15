@@ -1,11 +1,12 @@
 import lineChart from "../LineChart/LineChartGraph/js/lineChart.js";
 
 function generateHistogram(dataToBePlotted, activity) {
+    console.log(dataToBePlotted)
     dataToBePlotted.sort((a, b) => a.average - b.average);
 
-    const margin = { top: 10, right: 30, bottom: 50, left: 40 };
-    const width = 360 - margin.left - margin.right;
-    const height = 374 - margin.top - margin.bottom;
+    const margin = { top: 10, right: 30, bottom: 50, left: 20 };
+    const width = 200;
+    const height = 200;
 
     const originalColor = d3.scaleLinear().domain([0, 2.5, 5, 7.5, 10]).range(['#FF0000', '#FFA500', '#FFF000', '#90EE90', '#008000']);
     console.log(dataToBePlotted)
@@ -75,6 +76,19 @@ function generateHistogram(dataToBePlotted, activity) {
         .attr('height', function (d) {
             return height - y(d.len);
         });
+
+    // Adicionando um evento de clique ao SVG inteiro
+svg.on("click", function(event) {
+    const isNotBar = !event.target.matches("rect"); // Verifica se o alvo do clique não é uma coluna do histograma
+
+    if (isNotBar) {
+        // Retorna a opacidade das colunas para 1
+        svg.selectAll('rect')
+            .transition()
+            .duration(500)
+            .style('opacity', 1);
+    }
+});
 }
 
 export default generateHistogram;
