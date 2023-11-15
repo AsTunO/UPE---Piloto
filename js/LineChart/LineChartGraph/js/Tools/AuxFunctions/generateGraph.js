@@ -4,6 +4,7 @@ import getUserGrade from "../GetsFunctions/getUserGrade.js";
 import setStudentGrade from "../SetsFunctions/setStudentGrade.js";
 
 async function generateGraph(student, activity, average) {
+    console.log(average)
 
     let data = Promise.all([
         d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
@@ -22,12 +23,8 @@ async function generateGraph(student, activity, average) {
     const DATASTORE = await data;
     let dataToBePlotted = filterData(DATASTORE, student, activity)
 
-    // SetUserGrade
-    //const studentGrade = getUserGrade(student, DATASTORE.quizGrades)
-    //setStudentGrade(studentGrade)
 
-
-    createGraph(dataToBePlotted, average, student.name)
+    createGraph(dataToBePlotted, average, student)
 
 }
 
