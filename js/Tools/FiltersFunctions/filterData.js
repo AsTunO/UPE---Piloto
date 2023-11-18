@@ -14,7 +14,6 @@ function filterData(DATASTORE, activity) {
 
     DATASTORE.logs = sortEventsByTime(filterLogsByActivity(DATASTORE.logs, DATASTORE.quizList[activity]))
     DATASTORE.quizGrades = filterQuizGradesByActivity(DATASTORE.quizGrades, DATASTORE.quizList[activity].id)
-    console.log(DATASTORE.logs)
     const logsByUser = _.groupBy(DATASTORE.logs, 'userid');
     const uniqueLogs = [];
 

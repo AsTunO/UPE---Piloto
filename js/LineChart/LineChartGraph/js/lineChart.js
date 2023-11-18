@@ -1,7 +1,7 @@
 import generateGraph from './Tools/AuxFunctions/generateGraph.js';
 import populateSelect from './Tools/AuxFunctions/populateSelect.js';
 
-function lineChart(studentsIDs, activity, average) {
+function lineChart(studentsIDs, activity, average, datumBubble) {
     const selectorStudents = document.getElementById('students-list');
     selectorStudents.innerHTML = '';
 
@@ -18,14 +18,15 @@ function lineChart(studentsIDs, activity, average) {
 
     // Função para atualizar os campos e gerar o gráfico
     function updateFields(selectedAnchor) {
+        console.log(selectedAnchor)
         const student = {
             id: selectedAnchor.getAttribute('data-id'),
-            name: selectedAnchor.textContent
+            name: selectedAnchor.textContent,
         };
 
         let newAv = average
 
-        generateGraph(student, activity, newAv);
+        generateGraph(student, activity, newAv, datumBubble);
     }
 
     function handleStudentClick(event) {

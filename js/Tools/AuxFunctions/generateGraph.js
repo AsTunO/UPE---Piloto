@@ -1,5 +1,7 @@
 import createGraph from "./createBubbleGraph.js";
 import filterData from "../FiltersFunctions/filterData.js";
+import histogram from "../../Histogram/histogram.js";
+import getGeneralHistogramActivityData from "../GetsFunctions/getGeneralHistogramActivityData.js";
 
 async function generateGraph(activity) {
 
@@ -23,6 +25,14 @@ async function generateGraph(activity) {
     let dataToBePlotted = filterData(DATASTORE, activity)
     dataToBePlotted["totalStudents"] = (DATASTORE.users).length
     createGraph(dataToBePlotted, activity)
+
+
+
+    let generalHistogramActivityData = getGeneralHistogramActivityData(DATASTORE, activity);
+    histogram(generalHistogramActivityData, activity)
+
+
+
 }
 
 export default generateGraph

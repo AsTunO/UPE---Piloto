@@ -203,7 +203,7 @@ svg.selectAll(".tick text")
 
         // Outras ações desejadas ao clicar na bolha
         var datum = clickedCircle.datum();
-        histogram(datum.grades, activity);
+        histogram(datum.grades, activity, datum);
     });
 }
 

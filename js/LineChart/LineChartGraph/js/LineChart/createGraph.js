@@ -1,7 +1,45 @@
 let count = 0;
 let LASTStudentID = null
+let graphID = 0;
+let graphs = {};
 
-function createGraph(data, average, student) {
+function createGraph(data, student, datumBubble) {
+    console.log(datumBubble)
+
+    const mapEvent = {
+        "course_vis": "Visualizou o curso",
+        "resource_vis": "Acessou o recurso", 
+        "forum_vis": "Visualizou o forum",
+        "forum_participation": "Participou do forum",
+        "assignment_vis": "Visualizou a atividade",
+        "assignment_try": "Tentou a atividade",
+        "assignment_sub": "Entrgou a atividade" 
+    }
+
+    const diasDaSemana = {
+        'Monday': 'Segunda-feira',
+        'Tuesday': 'Terça-feira',
+        'Wednesday': 'Quarta-feira',
+        'Thursday': 'Quinta-feira',
+        'Friday': 'Sexta-feira',
+        'Saturday': 'Sábado',
+        'Sunday': 'Domingo'
+    };
+
+    if(datumBubble != undefined){
+
+        let diaInfo = datumBubble["date"].split(",")[0];
+        const diaInfoNum = datumBubble["date"].split(",")[1];
+        diaInfo = (diasDaSemana[diaInfo])
+    
+        const descriptionInfo = mapEvent[datumBubble.event]
+    }
+
+
+    let average = data.grade
+    if(average == null){
+        average = 0
+    }
 
     if(LASTStudentID == null) {
         LASTStudentID = student.id
@@ -13,6 +51,7 @@ function createGraph(data, average, student) {
 
     
     function generate() {
+        graphID++
 
         count++;
         if(count <= 3) {
@@ -35,24 +74,19 @@ function createGraph(data, average, student) {
     
                 const margin = { top: 10, right: 150, bottom: 60, left: 20 },
                     width = window.innerWidth - margin.right,
-                    height = 150
+                    height = 160
             
                 const svgLine = d3.select("#lineChart")
                     .append("svg")
+                    .attr("id", `graph-${graphID}`)
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
                     .attr("transform", `translate(${margin.left},${margin.top})`);
-            
-                    const diasDaSemana = {
-                        'Monday': 'Segunda-feira',
-                        'Tuesday': 'Terça-feira',
-                        'Wednesday': 'Quarta-feira',
-                        'Thursday': 'Quinta-feira',
-                        'Friday': 'Sexta-feira',
-                        'Saturday': 'Sábado',
-                        'Sunday': 'Domingo'
-                    };
+                    graphs[graphID] = svgLine;
+
+                    let graphGroup = svgLine.append("g")
+    .attr("class", `graph-group-${graphID}`);
             
                 const x = d3.scaleBand()
                 .domain(data.domainContent.x)
@@ -125,9 +159,9 @@ function createGraph(data, average, student) {
             
                 svgLine.attr("transform", `translate(0,${margin.top})`);
     
-                let bgstudentcolor = "#ffffff"
+                let bgstudentcolor = "#f6fafa"
     
-                /*if(average == 0) {
+                if(average == 0) {
                     bgstudentcolor = "#FF0000"
                 }else if (average == 2.5) {
                     bgstudentcolor = "#FFA500"
@@ -137,34 +171,84 @@ function createGraph(data, average, student) {
                     bgstudentcolor = "#90EE90"
                 }else {
                     bgstudentcolor = "#008000"
-                }*/
+                }
     
-                // Adiciona um grupo (g) para conter o retângulo e o texto
-                let studentGroup = svgLine.append("g");
+// Adiciona um grupo (g) para conter o retângulo e o texto
+let studentGroup = svgLine.append("g");
+
+// Adiciona um foreignObject para conter a div com o nome
+const fo = studentGroup.append("foreignObject")
+    .attr("x", 20) // Posiciona a div à esquerda do ícone
+    .attr("y", 15) // Posiciona a div acima do ícone
+    .attr("width", 80) // Largura da div (ajuste conforme necessário)
+    .attr("height", 50); // Altura da div (ajuste conforme necessário)
+
+// Adiciona um elemento div dentro do foreignObject para o nome do aluno
+const div = fo.append("xhtml:div")
+    .style("width", "55px")
+    .style("font-size", "12px")
+    .style("color", "black")
+    .style("background-color", bgstudentcolor)
+    .style("text-align", "center")
+    .text(`${student.name}`);
+
+    if(datumBubble != undefined) {
+    // Adiciona um grupo para conter o ícone de informação e o texto
+    let infoGroup = svgLine.append("g");
     
-                studentGroup.append("rect") // Adiciona um retângulo como background
-                    .attr("x", 0) // Posiciona o retângulo à esquerda do texto
-                    .attr("y", 25) // Posiciona o retângulo acima do texto (ajuste conforme necessário)
-                    .attr("width", 100) // Largura do retângulo (ajuste conforme necessário)
-                    .attr("height", 20) // Altura do retângulo (ajuste conforme necessário)
-                    .style("fill", bgstudentcolor); // Preenche o retângulo com a cor de fundo
+    // Adiciona o ícone de informação do Font Awesome usando unicode
+    infoGroup.append("text")
+        .attr("x", 5) // Posiciona o ícone à esquerda da div
+        .attr("y", 35) // Posiciona o ícone na mesma linha vertical da div
+        .attr("class", "fa-solid")
+        .style("font-size", "10px") // Define o tamanho do ícone
+        .text("\uf05a"); // Unicode do ícone de informação do Font Awesome
     
-                studentGroup.append("text")
-                    .text(`${student.name}`) // Adiciona o nome do aluno e a média como texto
-                    .attr("x", 5) // Adiciona uma margem de 5px à esquerda
-                    .attr("y", 40) // Posiciona a nota abaixo do nome (ajuste conforme necessário)
-                    .style("text-anchor", "start") // Alinha o texto à esquerda
-                    .style("font-size", "12px")
-                    .style("fill", "black");
+        infoGroup.on("mouseover", function() {
+            const tooltip = svgLine.append("g")
+                .attr("class", "tooltip-info")
+                .attr("transform", "translate(10, 60)"); // Posição do retângulo de tooltip
+        
+            const textContent = `${descriptionInfo} no dia ${diaInfoNum}, ${diaInfo}`;
+        
+            const text = tooltip.append("text")
+                .text(textContent)
+                .attr("x", 5)
+                .attr("y", -60)
+                .style("font-size", "12px")
+                .style("font-weight", "bold")
+                .style("fill", "black");
+        
+            // Obtém as dimensões do texto para definir o tamanho do retângulo
+            const textBBox = text.node().getBBox();
+        
+            // Adiciona um retângulo no fundo do texto com a cor cinza
+            tooltip.insert("rect", "text")
+                .attr("x", textBBox.x - 4) // Ajuste de margem
+                .attr("y", textBBox.y - 4) // Ajuste de margem
+                .attr("width", textBBox.width + 8) // Ajuste de margem
+                .attr("height", textBBox.height + 8) // Ajuste de margem
+                .attr("fill", "lightgrey"); // Cor cinza
+        
+            // Adiciona um evento de mouseout para remover o tooltip quando o mouse sair do ícone
+            infoGroup.on("mouseout", function() {
+                svgLine.selectAll(".tooltip-info").remove(); // Remove todos os elementos do tooltip
+            });
+        });
+        
+
+}
     
                 // Adicione um grupo para conter o ícone de lixeira
                 const trashIconGroup = svgLine.append("g")
                 .attr("class", "trash-icon")
+                .attr("id", `${graphID}`)
                 .attr("transform", "translate(" + (width - 30) + "," + (margin.top + 10) + ")")
                 .style("cursor", "pointer")
-                .on("click", () => {
-                    // Lógica para excluir o gráfico aqui
-                    d3.select("#lineChart").select("svg").remove();
+                .on("click", function() {
+                    const clickedGraphID = d3.select(this).attr("id"); // Pega o ID do elemento clicado
+                    const graphToRemove = d3.select(`#graph-${clickedGraphID}`); // Seleciona o gráfico com o ID correspondente
+                    graphToRemove.remove();
                     count = count - 1; // Resetar a contagem
                 });
     
@@ -219,7 +303,7 @@ function createGraph(data, average, student) {
     
             g.append("circle")
                 .attr("r", 12)
-                .style("fill", "white");
+                .style("fill", "#f6fafa");
     
             g.append("text")
                 .attr("class", "fa-solid") 
@@ -230,6 +314,10 @@ function createGraph(data, average, student) {
                 .attr("dominant-baseline", "middle");
         });
     
+// Rola a tela para baixo após a geração do gráfico
+const scrollTarget = document.getElementById('scrollTarget');
+scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+
         /// Desenha linhas conectando todos os pontos 
     for (let i = 0; i < LinePositions.length - 1; i++) {
         const iconRadius = 15; // Raio dos ícones
@@ -298,15 +386,11 @@ function createGraph(data, average, student) {
         .attr("x1", coordenada.x)
         .attr("y1", 0)
         .attr("x2", coordenada.x)
-        .attr("y2", height)
+        .attr("y2", height - 15)
         .attr("stroke", "black")
         .attr("opacity", 0.3)
         .attr("stroke-dasharray", "5,5"); // Define o estilo tracejado
     })
-    
-
-
-
     console.log(xVerticalMargins)
         
             }else {

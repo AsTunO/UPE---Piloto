@@ -3,8 +3,7 @@ import createGraph from "../../LineChart/createGraph.js";
 import getUserGrade from "../GetsFunctions/getUserGrade.js";
 import setStudentGrade from "../SetsFunctions/setStudentGrade.js";
 
-async function generateGraph(student, activity, average) {
-    console.log(average)
+async function generateGraph(student, activity, average, datumBubble) {
 
     let data = Promise.all([
         d3.csv("./data/see_course2060_12-11_to_11-12_logs_filtered.csv"),
@@ -23,8 +22,7 @@ async function generateGraph(student, activity, average) {
     const DATASTORE = await data;
     let dataToBePlotted = filterData(DATASTORE, student, activity)
 
-
-    createGraph(dataToBePlotted, average, student)
+    createGraph(dataToBePlotted, student, datumBubble)
 
 }
 
