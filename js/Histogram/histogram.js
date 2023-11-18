@@ -1,6 +1,6 @@
 import generateHistogram from "./generateHistogram.js";
 
-function histogram(dataToBePlotted, activity) {
+function histogram(dataToBePlotted, activity, datumBubble) {
 
     Promise.all([
         d3.csv("../data/user_list_see.csv"),
@@ -32,7 +32,7 @@ function histogram(dataToBePlotted, activity) {
             })
         }
     
-        generateHistogram(histogramData, activity)
+        generateHistogram(histogramData, activity, datumBubble)
     
     })
 }

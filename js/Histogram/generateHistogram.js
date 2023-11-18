@@ -1,15 +1,13 @@
 import lineChart from "../LineChart/LineChartGraph/js/lineChart.js";
 
-function generateHistogram(dataToBePlotted, activity) {
-    console.log(dataToBePlotted)
+function generateHistogram(dataToBePlotted, activity, datumBubble) {
     dataToBePlotted.sort((a, b) => a.average - b.average);
 
-    const margin = { top: 10, right: 30, bottom: 50, left: 20 };
+    const margin = { top: 52, right: 30, bottom: 50, left: 20 };
     const width = 200;
     const height = 200;
 
     const originalColor = d3.scaleLinear().domain([0, 2.5, 5, 7.5, 10]).range(['#FF0000', '#FFA500', '#FFF000', '#90EE90', '#008000']);
-    console.log(dataToBePlotted)
 
     const svg = d3
         .select('#histogram')
@@ -66,7 +64,7 @@ function generateHistogram(dataToBePlotted, activity) {
                 });
 
             const d = clickedRect.datum();
-            lineChart(d.ids, activity, d.average);
+            lineChart(d.ids, activity, d.average, datumBubble);
         })
         .transition()
         .duration(1000)
