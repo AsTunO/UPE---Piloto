@@ -4,6 +4,18 @@
     height: 400px;
 }
 
+.grade-container {
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.grade-title {
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 .title-chart {
     font-size: large;
 }

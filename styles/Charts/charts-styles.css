@@ -6,19 +6,18 @@
 
 .charts-container {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     gap: 40px;
     
     }
     
-.bubblechart-container { grid-area: 1 / 1 / 2 / 7; }
-.histogram-container { grid-area: 1 / 7 / 2 / 8; }
-.linechart-select-container { grid-area: 1 / 8 / 2 / 9; }
-.linechart-container { grid-area: 2 / 1 / 6 / 9; }
-
+.bubblechart-container {grid-area: 1 / 1 / 5 / 4;}
+.grade-container {grid-area: 1 / 4 / 2 / 6;}
+.histogram-container { grid-area: 2 / 4 / 6 / 6;}
+.linechart-select-container { grid-area: 2 / 5 / 6 / 6;}
 
 .grid line {
     stroke: #ccc;

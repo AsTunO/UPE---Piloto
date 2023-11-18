@@ -6,3 +6,6 @@ d3.csv("./data/see_course2060_quiz_list.csv").then(data => {
 });
 
 bubbleChart()
+
+
+

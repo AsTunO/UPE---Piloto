@@ -24,7 +24,7 @@
     border-radius: 50%; /* Faz o círculo */
     position: relative; /* Posição relativa para posicionar o texto */
     top: -15px; /* Ajuste para mover o círculo para cima */
-    background-color: white;
+    background-color: #f6fafa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
