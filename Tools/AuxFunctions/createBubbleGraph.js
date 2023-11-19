@@ -185,7 +185,7 @@ svg.selectAll(".tick text")
     .append("circle")
     .attr("cx", function (d) { return x(d.date); })
     .attr("cy", function (d) { return y(d.event); })
-    .attr("r", function (d) { return z(d.totalCases); })
+    .attr("r", 0) // Comece com raio zero para animação de crescimento
     .style("fill", function (d) { return myColor(d.totalSumOfGrades / d.totalCases) })
     .style("opacity", "0.7")
     .attr("stroke", "black")
@@ -203,8 +203,10 @@ svg.selectAll(".tick text")
 
         // Outras ações desejadas ao clicar na bolha
         var datum = clickedCircle.datum();
-        histogram(datum.grades, activity);
-    });
+        histogram(datum.grades, activity, datum);
+    }).transition() // Inicia a transição para animar o crescimento do raio
+    .duration(800)
+    .attr("r", function (d) { return z(d.totalCases); }); 
 }
 
 export default createGraph
