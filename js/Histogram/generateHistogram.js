@@ -10,7 +10,7 @@ function generateHistogram(dataToBePlotted, activity, datumBubble) {
     const originalColor = d3.scaleLinear().domain([0, 2.5, 5, 7.5, 10]).range(['#FF0000', '#FFA500', '#FFF000', '#90EE90', '#008000']);
 
     const svg = d3
-        .select('#histogram')
+        .select('#histogram').html('')
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
