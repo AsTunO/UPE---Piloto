@@ -26,13 +26,16 @@ function createGraph(data, student, datumBubble) {
         'Sunday': 'Domingo'
     };
 
+    let descriptionInfo 
+    let diaInfoNum
+    let diaInfo
     if(datumBubble != undefined){
 
-        let diaInfo = datumBubble["date"].split(",")[0];
-        const diaInfoNum = datumBubble["date"].split(",")[1];
+        diaInfo = datumBubble["date"].split(",")[0];
+        diaInfoNum = datumBubble["date"].split(",")[1];
         diaInfo = (diasDaSemana[diaInfo])
     
-        const descriptionInfo = mapEvent[datumBubble.event]
+         descriptionInfo = mapEvent[datumBubble.event]
     }
 
 
@@ -96,33 +99,6 @@ function createGraph(data, student, datumBubble) {
             svgLine.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
-        
-                // Desenha linhas tracejadas verticais no início e no final de cada dia da semana no eixo X
-    /*// Desenha linhas tracejadas verticais no início e no final de cada dia da semana no eixo X
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-    weekdays.forEach(day => {
-        const firstXPosition = x(`${day}, 0`);
-        const lastXPosition = x(`${day}, 1`) + x.bandwidth();
-    
-        svgLine.append("line")
-            .attr("x1", firstXPosition)
-            .attr("y1", 0) // Início da linha no topo do gráfico
-            .attr("x2", firstXPosition)
-            .attr("y2", height) // Fim da linha na parte inferior do gráfico
-            .style("stroke", "black")
-            .style("stroke-dasharray", "4") // Define o tracejado
-            .style("stroke-width", 1);
-        
-        svgLine.append("line")
-            .attr("x1", lastXPosition)
-            .attr("y1", 0) // Início da linha no topo do gráfico
-            .attr("x2", lastXPosition)
-            .attr("y2", height) // Fim da linha na parte inferior do gráfico
-            .style("stroke", "black")
-            .style("stroke-dasharray", "4") // Define o tracejado
-            .style("stroke-width", 1);
-    });*/
     
             // Adicione traduções em português inclinadas abaixo do eixo X
         svgLine.append("g")
@@ -210,6 +186,7 @@ const div = fo.append("xhtml:div")
                 .attr("transform", "translate(10, 60)"); // Posição do retângulo de tooltip
         
             const textContent = `${descriptionInfo} no dia ${diaInfoNum}, ${diaInfo}`;
+            console.log(textContent)
         
             const text = tooltip.append("text")
                 .text(textContent)
