@@ -3,7 +3,7 @@ import lineChart from "../LineChart/LineChartGraph/js/lineChart.js";
 function generateHistogram(dataToBePlotted, activity, datumBubble) {
     dataToBePlotted.sort((a, b) => a.average - b.average);
 
-    const margin = { top: 52, right: 30, bottom: 50, left: 20 };
+    const margin = { top: 18, right: 30, bottom: 20, left: 20 };
     const width = 200;
     const height = 200;
 
@@ -44,6 +44,7 @@ function generateHistogram(dataToBePlotted, activity, datumBubble) {
         .selectAll('rect')
         .data(dataToBePlotted)
         .join('rect')
+        .attr('class', 'rect')
         .attr('x', function (d) {
             return x(d.average);
         })
