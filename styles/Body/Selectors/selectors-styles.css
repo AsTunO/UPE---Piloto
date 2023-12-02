@@ -1,20 +1,21 @@
 .selectors-container {
-    display: flex;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-left: 50px;
 }
 
 .selector-content {
-    margin-bottom: 10px;
+    display: inline;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
+    font-size: 15px;
     font-weight: bold;
+    padding-right: 40px;
 }
+
 
 /* Estilizando o seletor de estudante */
 #student-select, #activity-select {
     width: 200px;
-    padding: 8px;
+    padding: 4px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;

@@ -17,10 +17,14 @@
 }
 
 .title-chart {
-    font-size: large;
+    font-size: 20px;
 }
 
 .selected {
-    stroke: #070404; /* Cor do contorno (vermelho, você pode ajustar) */
+    stroke: rgb(0, 0, 0); /* Cor do contorno (vermelho, você pode ajustar) */
     stroke-width: 4px; /* Largura do contorno (você pode ajustar) */
+}
+
+.bubble {
+    cursor: pointer; /* Altera o cursor quando o mouse está sobre as bolhas */
 }

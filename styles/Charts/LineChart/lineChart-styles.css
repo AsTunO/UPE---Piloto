@@ -17,8 +17,8 @@
 }
 
 .linechart-select-container {
-    width: 250px;
-    margin-left: 15px;
+    width: 280px;
+    padding-left: 50px;
 }
 .linechart-container {
     display:block;
@@ -30,4 +30,9 @@
 
 .title-chart{
     margin-bottom: 10px;
+}
+
+.dropdown-item {
+
+    cursor: pointer; /* Altera o cursor quando o mouse está sobre as bolhas */
 }

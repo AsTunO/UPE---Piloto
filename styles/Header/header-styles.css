@@ -2,8 +2,6 @@ header {
     display: flex;
     align-items: center;
     background-color: rgba(3, 3, 3, 0.849);
-    padding-bottom: 10px;
-    padding-top: 10px;
 }
 
 .title-container {
