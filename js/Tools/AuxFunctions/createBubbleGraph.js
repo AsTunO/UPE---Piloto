@@ -5,8 +5,8 @@ function createGraph(dataToBePlotted, activity) {
     d3.select("svg").remove()
     d3.select(".tooltip").remove();
 
-    const margin = { top: 10, right: 5, bottom: 80, left: 40 },
-        width = 700,
+    const margin = { top: 0, right: 5, bottom: 80, left: 30 },
+        width = 600,
         height = 350
 
     const svg = d3.select("#bubbleChart")
@@ -183,28 +183,28 @@ svg.selectAll(".tick text")
     .enter()
     .append("g")
     .append("circle")
+    .attr("class", "bubble")
     .attr("cx", function (d) { return x(d.date); })
     .attr("cy", function (d) { return y(d.event); })
-    .attr("r", function (d) { return z(d.totalCases); })
+    .attr("r", 0) // Comece com raio zero para animação de crescimento
     .style("fill", function (d) { return myColor(d.totalSumOfGrades / d.totalCases) })
     .style("opacity", "0.7")
     .attr("stroke", "black")
     .on("click", function (d) {
 
         var histogramField = document.getElementById("histogram");
-        histogramField.innerHTML = ""
-        var clickedCircle = d3.select(this);
-        
-        // Remove o contorno de todas as bolhas
-        svg.selectAll("circle").attr("class", "");
-        
-        // Adicione a classe 'selected' para a bolha clicada
-        clickedCircle.attr("class", "selected");
+    histogramField.innerHTML = "";
 
-        // Outras ações desejadas ao clicar na bolha
-        var datum = clickedCircle.datum();
-        histogram(datum.grades, activity, datum);
-    });
+    // Adicione a classe 'selected' apenas para a bolha clicada
+    d3.selectAll(".bubble").classed("selected", false); // Remove 'selected' de todas as bolhas
+    d3.select(this).classed("selected", true); // Adiciona 'selected' à bolha clicada
+
+    // Outras ações desejadas ao clicar na bolha
+    var datum = d3.select(this).datum();
+    histogram(datum.grades, activity, datum);
+    }).transition() // Inicia a transição para animar o crescimento do raio
+    .duration(800)
+    .attr("r", function (d) { return z(d.totalCases); }); 
 }
 
 export default createGraph

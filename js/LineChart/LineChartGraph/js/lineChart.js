@@ -1,3 +1,4 @@
+import controller from './LineChart/controller.js';
 import generateGraph from './Tools/AuxFunctions/generateGraph.js';
 import populateSelect from './Tools/AuxFunctions/populateSelect.js';
 
@@ -17,34 +18,41 @@ function lineChart(studentsIDs, activity, average, datumBubble) {
     }
 
     // Função para atualizar os campos e gerar o gráfico
-    function updateFields(selectedAnchor) {
-        console.log(selectedAnchor)
+    function updateFields(selectedCheckbox, selectedAnchor) {
         const student = {
-            id: selectedAnchor.getAttribute('data-id'),
+            id: selectedCheckbox.value,
             name: selectedAnchor.textContent,
+            isChecked: selectedCheckbox.checked
         };
 
-        let newAv = average
+        let newAv = average;
 
         generateGraph(student, activity, newAv, datumBubble);
     }
 
-    function handleStudentClick(event) {
+    function handleStudentChange(event) {
         const target = event.target;
+    
+        if (target.tagName === 'INPUT' && target.type === 'checkbox') {
+            const selectedAnchor = target.nextElementSibling; // Obtém o âncora próximo à caixa de seleção
+            const isChecked = target.checked; // Verifica se o checkbox está marcado
+    
+            // Verifica o estado atual do checkbox
+            if (isChecked) {
+                updateFields(target, selectedAnchor);
+            } else {
+                if(controller.verifyPeople(target.value)) {
+                    console.log("DEU BOM")
+                }else{
+                    console.log("LASCOU")
+                }
 
-        if (target.tagName === 'A') {
-            const selectedAnchor = selectorStudents.querySelector('a.selected');
-            if (selectedAnchor) {
-                selectedAnchor.classList.remove('selected');
             }
-
-            target.classList.add('selected');
-            updateFields(target);
         }
     }
 
     // Adiciona o ouvinte de evento ao seletor de estudantes
-    selectorStudents.addEventListener('click', handleStudentClick);
+    selectorStudents.addEventListener('click', handleStudentChange);
 
     // Carrega os arquivos CSV e popula o seletor de estudantes
     Promise.all([
@@ -56,7 +64,7 @@ function lineChart(studentsIDs, activity, average, datumBubble) {
         populateSelect(listOfStudents, "students", "userid", "name");
 
         // Adiciona novamente o ouvinte de evento após a população do seletor
-        selectorStudents.addEventListener('click', handleStudentClick);
+        selectorStudents.addEventListener('click', handleStudentChange);
     });
 }
 

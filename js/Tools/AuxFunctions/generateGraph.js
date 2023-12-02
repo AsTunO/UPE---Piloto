@@ -27,7 +27,7 @@ async function generateGraph(activity) {
     createGraph(dataToBePlotted, activity)
 
 
-
+    
     let generalHistogramActivityData = getGeneralHistogramActivityData(DATASTORE, activity);
     histogram(generalHistogramActivityData, activity)
 

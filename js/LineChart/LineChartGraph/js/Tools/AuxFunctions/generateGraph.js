@@ -22,6 +22,7 @@ async function generateGraph(student, activity, average, datumBubble) {
     const DATASTORE = await data;
     let dataToBePlotted = filterData(DATASTORE, student, activity)
 
+
     createGraph(dataToBePlotted, student, datumBubble)
 
 }

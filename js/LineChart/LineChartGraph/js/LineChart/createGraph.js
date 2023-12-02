@@ -1,9 +1,14 @@
-let count = 0;
+import controller from "./controller.js";
+
 let LASTStudentID = null
 let graphID = 0;
 let graphs = {};
 
+let bufferPeople = []
+
+
 function createGraph(data, student, datumBubble) {
+    
     console.log(datumBubble)
 
     const mapEvent = {
@@ -26,38 +31,28 @@ function createGraph(data, student, datumBubble) {
         'Sunday': 'Domingo'
     };
 
-    let descriptionInfo 
-    let diaInfoNum
-    let diaInfo
-    if(datumBubble != undefined){
-
-        diaInfo = datumBubble["date"].split(",")[0];
-        diaInfoNum = datumBubble["date"].split(",")[1];
-        diaInfo = (diasDaSemana[diaInfo])
-    
-         descriptionInfo = mapEvent[datumBubble.event]
-    }
-
-
     let average = data.grade
     if(average == null){
         average = 0
     }
 
-    if(LASTStudentID == null) {
-        LASTStudentID = student.id
-        generate()
-    }else if(LASTStudentID != student.id) {
-        generate()
-        LASTStudentID = student.id
+    if(!(controller.consult(student.id))){
+        let currentCount = controller.showCount()
+        if(currentCount <= 3){
+            generate()
+        }else {
+            controller.setCountFull()
+        }
     }
 
-    
     function generate() {
-        graphID++
+        graphID = student.id
+        controller.add(graphID)
+        console.log(bufferPeople)
 
-        count++;
-        if(count <= 3) {
+        let currentCount = controller.showCount()
+
+
             const contagemDatas = [];
     
             for (const evento of data.dotsContent) {
@@ -168,7 +163,7 @@ const div = fo.append("xhtml:div")
     .style("text-align", "center")
     .text(`${student.name}`);
 
-    if(datumBubble != undefined) {
+    /*if(datumBubble != undefined) {
     // Adiciona um grupo para conter o ícone de informação e o texto
     let infoGroup = svgLine.append("g");
     
@@ -184,9 +179,20 @@ const div = fo.append("xhtml:div")
             const tooltip = svgLine.append("g")
                 .attr("class", "tooltip-info")
                 .attr("transform", "translate(10, 60)"); // Posição do retângulo de tooltip
+
+                let descriptionInfo 
+                let diaInfoNum
+                let diaInfo
+                if(datumBubble != undefined){
+            
+                    diaInfo = datumBubble["date"].split(",")[0];
+                    diaInfoNum = datumBubble["date"].split(",")[1];
+                    diaInfo = (diasDaSemana[diaInfo])
+                
+                     descriptionInfo = mapEvent[datumBubble.event]
+                }
         
             const textContent = `${descriptionInfo} no dia ${diaInfoNum}, ${diaInfo}`;
-            console.log(textContent)
         
             const text = tooltip.append("text")
                 .text(textContent)
@@ -214,7 +220,7 @@ const div = fo.append("xhtml:div")
         });
         
 
-}
+}*/
     
                 // Adicione um grupo para conter o ícone de lixeira
                 const trashIconGroup = svgLine.append("g")
@@ -225,8 +231,18 @@ const div = fo.append("xhtml:div")
                 .on("click", function() {
                     const clickedGraphID = d3.select(this).attr("id"); // Pega o ID do elemento clicado
                     const graphToRemove = d3.select(`#graph-${clickedGraphID}`); // Seleciona o gráfico com o ID correspondente
+                    controller.remove(clickedGraphID)
                     graphToRemove.remove();
-                    count = count - 1; // Resetar a contagem
+
+                    // Encontrar e desmarcar a caixa de seleção correspondente
+                    const studentsList = document.getElementById("students-list");
+                    const checkboxes = studentsList.querySelectorAll("input[type='checkbox']");
+
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.value === clickedGraphID) {
+                            checkbox.checked = false;
+                        }
+                    });
                 });
     
                 // Adicione o ícone de lixeira ao grupo
@@ -369,10 +385,6 @@ scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest
         .attr("stroke-dasharray", "5,5"); // Define o estilo tracejado
     })
     console.log(xVerticalMargins)
-        
-            }else {
-                count = 3
-            }
     }
 
 
