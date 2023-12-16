@@ -36,3 +36,6 @@
 
     cursor: pointer; /* Altera o cursor quando o mouse está sobre as bolhas */
 }
+.fa-solid {
+    cursor: default;
+}
