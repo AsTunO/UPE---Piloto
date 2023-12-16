@@ -2,6 +2,7 @@ import histogram from "../../Histogram/histogram.js";
 
 function createGraph(dataToBePlotted, activity) {
 
+
     d3.select("svg").remove()
     d3.select(".tooltip").remove();
 
@@ -60,9 +61,6 @@ svg.append("g")
 svg.selectAll(".tick text")
 .attr("fill-opacity", 0);
 
-
-
-
     // Custom Y scale with icons
     const yDomain = [
         { content: "course_vis", icon: "fa-mouse-pointer", iconColor: "#8d6e63" },
@@ -73,6 +71,16 @@ svg.selectAll(".tick text")
         { content: "assignment_try", icon: "fa-check", iconColor: "#819ca9" },
         { content: "assignment_sub", icon: "fa-check-double", iconColor: "#c0ca33" }
     ];
+
+    const description = {
+        "fa-mouse-pointer" : "Visualização do curso",
+        "fa-folder-open" : "Visualização do recurso",
+        "fa-comments" : "Visualização do forum", 
+        "fa-comment-medical" : "Participação do forum",
+        "fa-file-alt" : "Visualização da atividade",
+        "fa-check" : "Tentativa da atividade",
+        "fa-check-double" : "Entrega da atividade"
+    }
 
     const y = d3.scaleBand()
         .domain(yDomain.map(d => d.content))
@@ -92,7 +100,18 @@ svg.selectAll(".tick text")
                 .attr("height", 20)
                 .html(d => `<i class="fa-solid ${d.icon}" style="color: ${d.iconColor};"></i>`)
                 .attr("x", -30)
-                .attr("y", -10);
+                .attr("y", -10)
+                // Adicione tooltips aqui
+                .on("mouseover", function(event, d) {
+                    console.log(description[d.icon])
+                    tooltip.style("opacity", 1)
+                        .html(description[d.icon])
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 30) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.style("opacity", 0);
+                });
         });
 
 
@@ -143,39 +162,17 @@ svg.selectAll(".tick text")
         return color
     }
 
-    // -1- Create a tooltip div that is hidden by default:
-    const tooltip = d3.select("#canvas")
+    // Criação do elemento tooltip no DOM
+    const tooltip = d3.select("body")
         .append("div")
-        .style("opacity", 0)
         .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("position", "absolute")
         .style("background-color", "black")
-        .style("border-radius", "5px")
-        .style("padding", "10px")
         .style("color", "white")
-
-    // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
-    const showTooltip = function (event, d) {
-        tooltip
-            .transition()
-            .duration(200)
-        tooltip
-            .style("opacity", 1)
-            .html(getAdditionalInformation(d, dataToBePlotted.totalStudents))
-            .style("left", (event.x) / 2 + "px")
-            .style("top", (event.y) / 2 + 30 + "px")
-    }
-
-    const moveTooltip = function (event, d) {
-        tooltip
-            .style("left", (event.x) / 2 + "px")
-            .style("top", (event.y) / 2 + 30 + "px")
-    }
-    const hideTooltip = function (event, d) {
-        tooltip
-            .transition()
-            .duration(200)
-            .style("opacity", 0)
-    }
+        .style("padding", "5px")
+        .style("border-radius", "5px")
+        .style("z-index", "9999");
 
     svg.append('g')
     .selectAll("dot")
