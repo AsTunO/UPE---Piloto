@@ -292,6 +292,15 @@ function createGraph(data, student) {
 
                 return `translate(${currentXPosition},${currentYPosition})`;
             })
+            .on("mouseover", function(event, d) {
+                tooltip.style("opacity", 1)
+                    .html(d.icon["legend"])
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 30) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            })
             .each(function (d) {
                 const g = d3.select(this);
 
@@ -306,16 +315,6 @@ function createGraph(data, student) {
                     .text(d => d["icon"].unicode)
                     .attr("text-anchor", "middle")
                     .attr("dominant-baseline", "middle")
-                    // Adicione tooltips aqui
-                .on("mouseover", function(event, d) {
-                    tooltip.style("opacity", 1)
-                        .html(d.icon["legend"])
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 30) + "px");
-                })
-                .on("mouseout", function() {
-                    tooltip.style("opacity", 0);
-                });;
             });
 
         // Rola a tela para baixo após a geração do gráfico
