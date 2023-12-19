@@ -26,9 +26,6 @@ async function generateGraph(student, activity, average, datumBubble) {
             const DATASTORE = data;
             const dataToBePlotted = filterData(DATASTORE, student, activity);
 
-            console.log("Chamou");
-            console.log(dataToBePlotted);
-
             createGraph(dataToBePlotted, student, datumBubble);
         }
     } catch (error) {

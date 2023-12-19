@@ -206,7 +206,6 @@ function createGraph(data, student) {
             .attr("class", "trash-icon")
             .attr("id", `${graphID}`)
             .attr("transform", "translate(" + (width - 30) + "," + (margin.top + 10) + ")")
-            .style("cursor", "pointer")
             .on("click", function () {
                 const clickedGraphID = d3.select(this).attr("id"); // Pega o ID do elemento clicado
                 const graphToRemove = d3.select(`#graph-${clickedGraphID}`); // Seleciona o gráfico com o ID correspondente
@@ -221,7 +220,14 @@ function createGraph(data, student) {
                     if (checkbox.value === clickedGraphID) {
                         checkbox.checked = false;
                     }
-                });
+                })
+            })
+            .on("mouseover", function () {
+                console.log("tá aqui")
+                this.style.cursor = "pointer";
+            })
+            .on("mouseleave", function () {
+                this.style.cursor = "default"; // Altera de volta para o cursor padrão
             });
 
         // Adicione o ícone de lixeira ao grupo
@@ -230,6 +236,7 @@ function createGraph(data, student) {
             .attr("class", "fa-solid")
             .style("font-size", "20px")
             .style("fill", "#FF0000") // Cor do ícone de lixeira (pode ajustar conforme necessário)
+            .style("pointer-events", "auto")
             .text("\uf2ed"); // Código Unicode para o ícone de lixeira
 
 

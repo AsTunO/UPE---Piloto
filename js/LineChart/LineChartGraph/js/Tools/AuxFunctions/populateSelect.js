@@ -8,10 +8,24 @@ function populateSelect(content, IDTag, idField, nameField) {
         result.push({ 
             id: e[idField], 
             text: e[nameField] 
-        })
+        });
     });
-    populateUlList(document.getElementById("students-list"), result)
 
+    result.sort((a, b) => {
+        const textA = a.text.toUpperCase();
+        const textB = b.text.toUpperCase();
+
+        if (textA < textB) {
+            return -1;
+        }
+        if (textA > textB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    console.log(result);
+    populateUlList(document.getElementById("students-list"), result);
 }
 
-export default populateSelect
+export default populateSelect;
