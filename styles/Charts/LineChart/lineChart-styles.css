@@ -36,6 +36,16 @@
 
     cursor: pointer; /* Altera o cursor quando o mouse está sobre as bolhas */
 }
+
 .fa-solid {
     cursor: default;
+}
+
+#searchContainer {
+    padding: 6px;
+    margin-left: 3px;
+}
+
+.trash-icon-hover {
+    cursor: pointer;
 }
